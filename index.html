@@ -219,6 +219,7 @@ details.fold > div{padding:0 16px 16px}
 .tok.v1{--tc:#ebe4d4;--tt:#2a2015} .tok.v2{--tc:#c27a40;--tt:#fff} .tok.v3{--tc:#8c9dab;--tt:#0f171e} .tok.v5{--tc:#d9ab4f;--tt:#2a1a05} .tok.v10{--tc:#5d30a3;--tt:#fff}
 .tok.v2::before,.tok.v10::before{border-color:rgba(255,255,255,.4)}
 button.tok[aria-pressed="false"]{opacity:.92}
+button.tok:disabled{opacity:.28;cursor:not-allowed;filter:grayscale(.6)}
 button.tok[aria-pressed="true"]{transform:translateY(-9px);box-shadow:0 0 0 3px var(--gold2), 0 12px 20px -6px rgba(214,172,87,.75)}
 .pick-toks{justify-content:center;gap:10px 10px;padding-top:10px}
 .toks.sm{gap:7px}
@@ -317,6 +318,35 @@ button.tok[aria-pressed="true"]{transform:translateY(-9px);box-shadow:0 0 0 3px 
 .feats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:520px;margin-top:6px}
 .feat{border-top:1px solid var(--line);padding-top:12px;font-size:13px;color:var(--mut)}
 .feat b{display:block;font-family:var(--serif);font-size:24px;color:var(--txt)}
+.res-sec{width:100%;max-width:520px;text-align:left;display:flex;flex-direction:column;gap:10px;margin:14px auto 0}
+.res{display:flex;align-items:center;gap:14px;border:1px solid var(--line2);border-radius:16px;padding:14px 16px;background:var(--panel);color:var(--txt);text-decoration:none;transition:border-color .2s, transform .12s}
+.res:hover{border-color:var(--gold)}
+.res:active{transform:scale(.99)}
+.res-ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:rgba(214,172,87,.12);color:var(--gold2);flex:none}
+.res-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.res-txt b{font-weight:700;font-size:15px}
+.res-txt .d{font-size:13px;color:var(--mut);line-height:1.35}
+.res-txt .m{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.04em}
+.rules-slider{width:100%;max-width:520px;border:1px solid var(--line);border-radius:20px;background:var(--panel);padding:16px 0 12px;text-align:left;margin-top:6px}
+.rs-head{display:flex;justify-content:space-between;align-items:baseline;padding:0 20px 6px}
+.rs-count{font-family:var(--mono);font-size:13px;color:var(--mut)}
+.rs-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;outline:none}
+.rs-track::-webkit-scrollbar{display:none}
+.rs-slide{flex:0 0 100%;box-sizing:border-box;scroll-snap-align:start;padding:6px 22px 4px;display:flex;flex-direction:column;gap:6px;min-height:232px}
+.rs-visual{height:100px;display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:4px}
+.rs-visual .toks{justify-content:center}
+.rs-step{font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.rs-slide h3{font-family:var(--serif);font-weight:700;font-size:25px;line-height:1.1}
+.rs-slide p{color:var(--mut);font-size:15px;line-height:1.45}
+.rs-eq{font-family:var(--mono);font-size:17px;color:var(--gold2)}
+.rs-big{font-family:var(--serif);font-size:72px;line-height:1;color:var(--gold2)}
+.rs-bid{font-family:var(--serif);font-weight:800;font-size:22px}
+.rs-secret{font-family:var(--serif);font-weight:700;font-size:17px;letter-spacing:.05em;color:#f6f0e8;background:linear-gradient(180deg,#52318e,#2b1554);padding:6px 12px;border-radius:3px;box-shadow:inset 0 1px 0 rgba(255,255,255,.28), 0 0 0 1.5px #3d2270}
+.rs-nav{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 0}
+.rs-dots{display:flex;gap:2px}
+.rs-dots button{width:22px;height:30px;display:grid;place-items:center;padding:0}
+.rs-dots button::after{content:"";width:8px;height:8px;border-radius:4px;background:rgba(255,255,255,.2);transition:all .25s}
+.rs-dots button.on::after{width:20px;background:var(--gold2)}
 .teaser-grid{width:140px;margin:4px auto 0;opacity:.9}
 .live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red2);margin-right:8px;animation:blink 1.4s steps(2,start) infinite;vertical-align:1px}
 
@@ -572,6 +602,7 @@ const ICONS = {
   x:     '<path d="M6 6l12 12M18 6 6 18"/>',
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
   skip:  '<path d="M5 5l9 7-9 7z"/><path d="M18 5v14"/>',
+  download:'<path d="M12 4v11"/><path d="M7 10.5l5 5 5-5"/><path d="M5 19.5h14"/>',
   camera:'<path d="M3 8.5a2 2 0 0 1 2-2h2.2l1.6-2h6.4l1.6 2H19a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3.6"/>',
 };
 const icon = n => `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]}</svg>`;
@@ -754,9 +785,15 @@ function spendTokens(p, idxs) {
   return amount;
 }
 const selSum = (p, idxs) => (idxs || []).reduce((t, i) => t + (p.tokens[i] || 0), 0);
+// Interdit de tomber à court de jetons avant la fin : on garde au moins 1 jeton par manche restante
+const reserveNeeded = () => Math.max(0, ROUNDS - state.round);
+const maxBidTokens = p => Math.max(1, p.tokens.length - reserveNeeded());
+const bidAllowed = (p, idxs) => idxs.length >= 1 && idxs.length <= maxBidTokens(p);
+// Sélection « Max » : les jetons les plus forts, dans la limite autorisée
+const maxSelection = p => p.tokens.map((v, i) => [v, i]).sort((a, b) => b[0] - a[0]).slice(0, maxBidTokens(p)).map(x => x[1]);
 function bidValid(id) {
   const v = state.draft[id];
-  return Array.isArray(v) && v.length > 0;
+  return Array.isArray(v) && bidAllowed(byId(id), v);
 }
 function dealerSealBids() {
   if (!state.queue.every(bidValid)) return;
@@ -781,7 +818,7 @@ function beginBid() { tStop(); state.phase = 'bid'; state.queue = activeIds(); s
 
 function sealBid(idxs) {
   const p = byId(state.queue[state.turn]);
-  if (!idxs.length) return;
+  if (!bidAllowed(p, idxs)) return;
   state.current.bids[p.id] = spendTokens(p, idxs);   // dépensé quoi qu'il arrive
   state.turn++; state.sub = 'buffer';
   if (state.turn >= state.queue.length) resolveRound();
@@ -860,8 +897,14 @@ function acqHTML(p) {
     return `<div class="acq s-${s}">${shapeSVG(s)}<b>${Math.min(a, n)}/${n}</b>${a > n ? `<span class="surplus">+${a - n}</span>` : ''}</div>`;
   }).join('')}</div>`;
 }
-function tokenBtn(v, i, on, act, pid) {
-  return `<button class="tok v${v}" aria-pressed="${on}" aria-label="Jeton de ${v} ${plural(v, 'écu', 'écus')}" data-act="${act}" data-i="${i}" ${pid ? `data-pid="${pid}"` : ''}><span>${v}</span></button>`;
+function tokenBtn(v, i, on, act, pid, locked) {
+  return `<button class="tok v${v}" aria-pressed="${on}" aria-label="Jeton de ${v} ${plural(v, 'écu', 'écus')}" data-act="${act}" data-i="${i}" ${pid ? `data-pid="${pid}"` : ''} ${locked && !on ? 'disabled' : ''}><span>${v}</span></button>`;
+}
+function reserveNote(p, small) {
+  const r = reserveNeeded(), m = maxBidTokens(p);
+  if (!r) return small ? 'dernière manche : tapis possible' : `<p class="note">Dernière manche : tu peux miser tous tes jetons.</p>`;
+  return small ? `max ${m} ${plural(m, 'jeton', 'jetons')}`
+    : `<p class="note">Garde au moins <b>${r} ${plural(r, 'jeton', 'jetons')}</b> pour ${plural(r, 'la manche suivante', `les ${r} manches suivantes`)} : tu peux miser jusqu'à <b>${m} ${plural(m, 'jeton', 'jetons')}</b>.</p>`;
 }
 function tokensHTML(tokens, size) {
   if (!tokens.length) return `<span class="dim" style="font-size:13px">Plus aucun jeton</span>`;
@@ -928,15 +971,16 @@ function dealerBidView() {
   const ok = ids.filter(bidValid).length, left = ids.length - ok;
   return `${dealerFlag()}
     <div><div class="eyebrow">Manche ${state.round} · Enchères secrètes</div><h2>Saisie des mises</h2></div>
+    ${reserveNeeded() ? `<p class="note">Chaque joueur doit garder au moins ${reserveNeeded()} ${plural(reserveNeeded(), 'jeton', 'jetons')} pour les manches suivantes.</p>` : ''}
     <div class="dprog"><span>Jetons misés par chaque joueur (min. 1 jeton)</span><span><b>${ok}</b>/${ids.length}</span></div>
     <div class="drows">${ids.map(id => {
       const p = byId(id), s = votes[id], sel = d[id] || [], amt = selSum(p, sel);
       return `<div class="drow dtok ${sel.length ? 'ok' : ''}">
         <div class="dhead">${ava(p)}
-          <div class="nm"><span>${esc(p.name)}</span><small>${inlineShape(s)} lot ×${lot(s)} · solde <b>${p.wons}</b></small></div>
+          <div class="nm"><span>${esc(p.name)}</span><small>${inlineShape(s)} lot ×${lot(s)} · solde <b>${p.wons}</b> · ${reserveNote(p, true)}</small></div>
           <div class="dsum"><b>${amt}</b><span>mise</span></div>
         </div>
-        <div class="toks sm">${p.tokens.map((v, i) => tokenBtn(v, i, sel.includes(i), 'dTok', id)).join('')}</div>
+        <div class="toks sm">${p.tokens.map((v, i) => tokenBtn(v, i, sel.includes(i), 'dTok', id, sel.length >= maxBidTokens(p))).join('')}</div>
       </div>`;
     }).join('')}</div>
     <button class="btn btn-primary btn-big btn-block" data-act="dConfirmBids" ${left ? 'disabled' : ''}>${left ? `Encore ${left} ${plural(left, 'mise', 'mises')} à saisir` : `${icon('lock')}Valider les mises`}</button>`;
@@ -1007,7 +1051,6 @@ function teaserView() {
     ['sta', 78, 66, 84, -2], ['tri', 55, 88, 40, -8], ['cir', 40, 6, 30, -5],
   ].map(([s, x, y, size, delay]) =>
     `<span class="s-${s}"><svg viewBox="0 0 24 24" style="left:${x}%;top:${y}%;width:${size}px;height:${size}px;color:var(--c);animation-delay:${delay}s">${shapeSVG(s).replace(/^<svg[^>]*>|<\/svg>$/g, '')}</svg></span>`).join('');
-  const demo = { grid: GRID, acquired: { tri: 2, cir: 2, sta: 2 } };
   return `<div class="floaters">${floaters}</div>
   <div class="teaser">
     <div class="eyebrow"><span class="live-dot"></span>Ouverture des enchères</div>
@@ -1020,14 +1063,65 @@ function teaserView() {
       <div><b data-cd="s">--</b><span>Sec</span></div>
     </div>
     <div class="cd-date">Samedi 12 décembre · 17h00</div>
-    <div class="teaser-grid">${gridHTML(GRID, evaluate(demo), true)}</div>
-    <div class="feats">
-      <div class="feat"><b>7</b>manches</div>
-      <div class="feat"><b>3</b>formes à rafler</div>
-      <div class="feat"><b>1</b>seul appareil</div>
-    </div>
+    ${rulesSlider()}
+    ${resourcesHTML()}
   </div>`;
 }
+// PDF à imprimer, servis depuis le dossier ressources/ à côté de index.html
+const RESOURCES = [
+  { f: 'ressources/fiches-joueurs.pdf', t: 'Fiches joueurs', d: 'La grille, les jetons à rayer, le suivi des 7 manches et des notes.', m: '7 pages · A4' },
+  { f: 'ressources/bulletins-et-sacs.pdf', t: 'Bulletins de vote & sacs', d: '7 bulletins par joueur et une étiquette photo pour son sac de jetons.', m: '7 pages · A4' },
+  { f: 'ressources/etiquettes-urne.pdf', t: 'Étiquettes de l’urne', d: 'Les 3 formes à coller au-dessus des fentes.', m: '1 page · A4 paysage' },
+];
+function resourcesHTML() {
+  return `<section class="res-sec" aria-label="Ressources à imprimer">
+    <div class="eyebrow">Ressources à imprimer</div>
+    ${RESOURCES.map(r => `<a class="res" href="${r.f}" download>
+      <span class="res-ic">${icon('download')}</span>
+      <span class="res-txt"><b>${r.t}</b><span class="d">${r.d}</span><span class="m">PDF · ${r.m}</span></span>
+    </a>`).join('')}
+  </section>`;
+}
+const RULE_STEPS = [
+  { t: 'Une grille commune', p: 'Tout le monde a la même grille 3×3 : 3 triangles, 4 cercles, 2 étoiles.',
+    v: () => `<div style="width:92px">${gridHTML(GRID, null, true)}</div>` },
+  { t: '10 jetons, 30 écus', p: 'Des jetons non divisibles : 3×1, 3×2, 2×3, 1×5 et 1×10. Pas de monnaie rendue.',
+    v: () => tokensHTML(START_TOKENS, 'xs') },
+  { t: 'Vote secret', p: 'À chaque manche, choisis une forme en secret. Plus il y a de votants sur une forme, plus le lot est gros.',
+    v: () => SHAPES.map(s => `<span class="s-${s}" style="width:44px;color:var(--c)">${shapeSVG(s)}</span>`).join('') },
+  { t: 'Enchère secrète', p: 'Mise un ou plusieurs jetons. La plus haute mise sur ta forme rafle le lot. Gagné ou perdu, tes jetons sont dépensés.',
+    v: () => `${tokensHTML([5, 2], 'sm')}<span class="rs-eq">= 7 écus</span>` },
+  { t: 'Tout reste secret', p: 'Les mises gagnantes sont annoncées, sauf la plus haute. Personne ne sait ce qu’il a gagné avant la fin.',
+    v: () => `<span class="rs-bid">3 écus</span><span class="rs-secret">SECRET</span><span class="rs-bid">1 écu</span>` },
+  { t: '7 manches, puis le verdict', p: 'Garde toujours un jeton par manche restante. À la fin : le plus de bingos gagne, puis le plus de cases, puis le plus d’écus.',
+    v: () => `<b class="rs-big">7</b><span class="rs-eq">manches</span>` },
+];
+function rulesSlider() {
+  const n = RULE_STEPS.length;
+  return `<section class="rules-slider" aria-label="Les règles en bref">
+    <div class="rs-head"><span class="eyebrow">Les règles en ${n} étapes</span><span class="rs-count" data-rs-count>1 / ${n}</span></div>
+    <div class="rs-track" data-slides tabindex="0">${RULE_STEPS.map((r, i) => `<article class="rs-slide" aria-label="Étape ${i + 1} sur ${n}">
+      <div class="rs-visual">${r.v()}</div>
+      <div class="rs-step">Étape ${i + 1}</div>
+      <h3>${r.t}</h3>
+      <p>${r.p}</p>
+    </article>`).join('')}</div>
+    <div class="rs-nav">
+      <button class="icon-btn" data-act="slide" data-n="-1" aria-label="Étape précédente"><span style="display:flex;transform:scaleX(-1)">${icon('arrow')}</span></button>
+      <div class="rs-dots">${RULE_STEPS.map((_, i) => `<button class="${i ? '' : 'on'}" data-act="slideTo" data-i="${i}" aria-label="Aller à l'étape ${i + 1}"></button>`).join('')}</div>
+      <button class="icon-btn" data-act="slide" data-n="1" aria-label="Étape suivante">${icon('arrow')}</button>
+    </div>
+  </section>`;
+}
+function slideTrack() { return document.querySelector('[data-slides]'); }
+function slideIndex(tr) { return Math.round(tr.scrollLeft / tr.clientWidth); }
+function paintSlider() {
+  const tr = slideTrack(); if (!tr) return;
+  const i = slideIndex(tr);
+  document.querySelectorAll('.rs-dots button').forEach((b, k) => b.classList.toggle('on', k === i));
+  const c = document.querySelector('[data-rs-count]'); if (c) c.textContent = `${i + 1} / ${RULE_STEPS.length}`;
+}
+document.addEventListener('scroll', e => { if (e.target.matches && e.target.matches('[data-slides]')) paintSlider(); }, true);
 function updateCountdown() {
   const s = Math.floor(Math.max(0, LAUNCH_AT - Date.now()) / 1000);
   const vals = { d: Math.floor(s / 86400), h: Math.floor(s % 86400 / 3600), m: Math.floor(s % 3600 / 60), s: s % 60 };
@@ -1092,12 +1186,13 @@ function setupView() {
         <li><b>Vote secret</b> : chacun choisit une forme. Le lot d'une forme = le nombre de joueurs qui l'ont choisie.</li>
         <li><b>Enchère secrète</b> : la plus haute mise remporte le lot de sa forme. En cas d'égalité, le lot est partagé (arrondi à l'inférieur). <b>Toute mise est dépensée</b>, gagnée ou perdue.</li>
         <li>Les mises gagnantes sont annoncées, <b>sauf la plus haute de la manche</b> (SECRET). Personne ne sait qui a gagné.</li>
-        <li>Un joueur qui n'a plus de jeton est <b>éliminé</b> et classé dernier.</li>
+        <li>Il faut <b>garder au moins un jeton par manche restante</b> : impossible de se retrouver sans jeton avant la fin de la 7e manche.</li>
         <li>Après 7 manches : classement par <b>bingos</b>, puis <b>cases cochées</b>, puis <b>écus restants</b>.</li>
       </ol>
     </details>
     ${ui.setupError ? `<p class="err">${esc(ui.setupError)}</p>` : ''}
-    <button class="btn btn-primary btn-big btn-block" data-act="startGame">Lancer la partie${icon('arrow')}</button>`;
+    <button class="btn btn-primary btn-big btn-block" data-act="startGame">Lancer la partie${icon('arrow')}</button>
+    ${resourcesHTML()}`;
 }
 
 function discussView() {
@@ -1153,12 +1248,13 @@ function bidView() {
         <span class="eyebrow">Tes jetons</span>
         <span class="mut" style="font-size:13px">${p.tokens.length} ${plural(p.tokens.length, 'jeton', 'jetons')} · ${p.wons} ${plural(p.wons, 'écu', 'écus')}</span>
       </div>
-      <div class="toks pick-toks">${p.tokens.map((v, i) => tokenBtn(v, i, ui.sel.includes(i), 'tokToggle')).join('')}</div>
+      ${reserveNote(p)}
+      <div class="toks pick-toks">${p.tokens.map((v, i) => tokenBtn(v, i, ui.sel.includes(i), 'tokToggle', null, ui.sel.length >= maxBidTokens(p))).join('')}</div>
       <div class="bid-total">
         <div class="amount"><span>Mise</span><b>${amt}</b><span>${plural(amt, 'écu', 'écus')}</span></div>
         <div class="bid-tools">
           <button class="btn btn-ghost" data-act="tokClear" ${ui.sel.length ? '' : 'disabled'}>Effacer</button>
-          <button class="btn btn-ghost allin" data-act="tokAll" ${ui.sel.length === p.tokens.length ? 'disabled' : ''}>Tapis</button>
+          <button class="btn btn-ghost allin" data-act="tokAll">${reserveNeeded() ? 'Max' : 'Tapis'}</button>
         </div>
       </div>
     </div>
@@ -1351,14 +1447,19 @@ const ACTIONS = {
   confirmVote,
   revealVotes() { state.revealed = true; tReset(true); commit(); },
   beginBid,
-  tokToggle(d) { const i = +d.i; ui.sel = ui.sel.includes(i) ? ui.sel.filter(x => x !== i) : ui.sel.concat(i); render(); },
-  tokAll() { ui.sel = byId(state.queue[state.turn]).tokens.map((_, i) => i); render(); },
+  tokToggle(d) {
+    const i = +d.i, p = byId(state.queue[state.turn]);
+    if (ui.sel.includes(i)) ui.sel = ui.sel.filter(x => x !== i);
+    else if (ui.sel.length < maxBidTokens(p)) ui.sel = ui.sel.concat(i);
+    render();
+  },
+  tokAll() { ui.sel = maxSelection(byId(state.queue[state.turn])); render(); },
   tokClear() { ui.sel = []; render(); },
   confirmBid() {
     const p = byId(state.queue[state.turn]);
     const s = state.current.votes[p.id];
     const idxs = ui.sel.slice(), amt = selSum(p, idxs);
-    if (!amt) return;
+    if (!amt || !bidAllowed(p, idxs)) return;
     const vals = idxs.map(i => p.tokens[i]).sort((a, b) => b - a);
     ui.modal = {
       title: `Sceller ${amt} ${plural(amt, 'écu', 'écus')} ?`,
@@ -1374,7 +1475,8 @@ const ACTIONS = {
   dConfirmVotes: dealerConfirmVotes,
   dTok(d) {
     const i = +d.i, cur = state.draft[d.pid] || [];
-    state.draft[d.pid] = cur.includes(i) ? cur.filter(x => x !== i) : cur.concat(i);
+    if (cur.includes(i)) state.draft[d.pid] = cur.filter(x => x !== i);
+    else if (cur.length < maxBidTokens(byId(d.pid))) state.draft[d.pid] = cur.concat(i);
     save(); render();
   },
   dConfirmBids() {
@@ -1394,6 +1496,12 @@ const ACTIONS = {
   peekShow() { state.peek.sub = 'private'; commit(); },
   peekClose() { state.peek = null; commit(); },
 
+  slide(d) {
+    const tr = slideTrack(); if (!tr) return;
+    const n = RULE_STEPS.length, i = (slideIndex(tr) + +d.n + n) % n;
+    tr.scrollTo({ left: i * tr.clientWidth, behavior: 'smooth' });
+  },
+  slideTo(d) { const tr = slideTrack(); if (tr) tr.scrollTo({ left: +d.i * tr.clientWidth, behavior: 'smooth' }); },
   historyOpen() { ui.history = true; render(); },
   historyClose() { ui.history = false; render(); },
 
