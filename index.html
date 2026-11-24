@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0a0809">
-<meta name="description" content="Auction Bingo — le bingo aux enchères en Pass & Play, inspiré de The Devil's Plan.">
-<title>Auction Bingo — Le Bingo aux enchères</title>
+<meta name="description" content="Le Bingo des enchères — en Pass & Play ou avec un croupier, inspiré de The Devil's Plan.">
+<title>Le Bingo des enchères</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..800;1,6..96,500..800&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -48,7 +48,8 @@ h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,8vw,40px);line-
 
 /* ---------- Header ---------- */
 .top{display:flex;align-items:center;gap:10px;padding:6px 0 14px;border-bottom:1px solid var(--line2);margin-bottom:22px}
-.brand{display:flex;align-items:center;gap:8px;font-family:var(--serif);font-weight:700;font-size:17px;letter-spacing:.01em;white-space:nowrap}
+.brand{display:flex;align-items:center;gap:8px;font-family:var(--serif);font-weight:700;font-size:16px;letter-spacing:.01em;white-space:nowrap;min-width:0}
+.brand-txt{overflow:hidden;text-overflow:ellipsis}
 .brand-mark{display:flex;gap:2px}
 .brand-mark svg{width:11px;height:11px}
 .round-pill{margin-left:auto;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);border:1px solid var(--line);border-radius:99px;padding:5px 11px;white-space:nowrap}
@@ -166,14 +167,14 @@ details.rules[open] summary::after{content:"−"}
 .score-line b{color:var(--txt)}
 
 /* ---------- Bingo grid ---------- */
-.bgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;aspect-ratio:1;width:100%}
-.cell{border-radius:12px;border:1.5px solid rgba(255,255,255,.08);background:rgba(0,0,0,.35);display:grid;place-items:center;position:relative;transition:all .3s}
-.cell svg{width:46%;height:46%;color:var(--c);opacity:.32}
-.cell.on{background:color-mix(in srgb, var(--c) 20%, rgba(0,0,0,.4));border-color:var(--c);box-shadow:0 0 18px -4px var(--c), inset 0 0 12px -6px var(--c)}
-.cell.on svg{opacity:1}
-.cell.line{outline:2px solid var(--gold2);outline-offset:2px}
-.bgrid.sm{gap:4px}
-.bgrid.sm .cell{border-radius:7px}
+.bgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;aspect-ratio:1;width:100%;background:#2a1a5e;padding:6px;border-radius:5px;box-shadow:0 0 0 1.5px #4a2f95, 0 12px 26px -14px rgba(0,0,0,.7)}
+.cell{background:var(--tv);display:grid;place-items:center;position:relative;border-radius:2px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22), inset 0 -3px 0 rgba(0,0,0,.12);transition:filter .3s}
+.cell svg{width:54%;height:54%}
+.bgrid.res .cell{filter:grayscale(.9) brightness(.42)}
+.bgrid.res .cell.on{filter:none}
+.cell.line::after{content:"";position:absolute;inset:3px;border:2px solid #fff;border-radius:2px;box-shadow:0 0 8px rgba(255,255,255,.6)}
+.bgrid.sm{gap:2px;padding:3px}
+.bgrid.sm .cell.line::after{inset:2px;border-width:1.5px}
 
 /* ---------- Shape choice ---------- */
 .pick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
@@ -222,12 +223,6 @@ details.fold > div{padding:0 16px 16px}
 .seal .ic{width:42px;height:42px}
 
 /* ---------- Peek ---------- */
-.plist{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.plist button{min-height:58px;border-radius:14px;border:1px solid var(--line2);background:rgba(255,255,255,.04);font-weight:700;font-size:16px;word-break:break-word;padding:8px}
-.outcome{border-radius:16px;padding:16px;text-align:center;border:1px solid var(--line2)}
-.outcome.win{border-color:rgba(53,208,127,.5);background:rgba(53,208,127,.1)}
-.outcome.lose{border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.03)}
-.outcome b{display:block;font-family:var(--serif);font-size:26px;margin-bottom:4px}
 
 /* ---------- History ---------- */
 .hbar{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 18px calc(env(safe-area-inset-bottom) + 10px);background:linear-gradient(180deg, transparent, rgba(10,8,9,.94) 30%);}
@@ -299,7 +294,7 @@ details.fold > div{padding:0 16px 16px}
 .feats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:520px;margin-top:6px}
 .feat{border-top:1px solid var(--line);padding-top:12px;font-size:13px;color:var(--mut)}
 .feat b{display:block;font-family:var(--serif);font-size:24px;color:var(--txt)}
-.teaser-grid{width:120px;margin:4px auto 0;opacity:.9}
+.teaser-grid{width:140px;margin:4px auto 0;opacity:.9}
 .live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red2);margin-right:8px;animation:blink 1.4s steps(2,start) infinite;vertical-align:1px}
 
 /* ---------- Mode de jeu ---------- */
@@ -382,7 +377,12 @@ details.fold > div{padding:0 16px 16px}
 
 @media (min-width:600px){
   .pcards{grid-template-columns:repeat(3,1fr)}
-  .plist{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:440px){
+  .round-pill .rp-lbl{display:none}
+  .round-pill{padding:5px 9px}
+  .round-pill ~ .top-actions{gap:4px}
+  .top:has(.round-pill) .brand-mark{display:none}
 }
 @media (max-width:380px){
   #app{padding-left:14px;padding-right:14px}
@@ -409,9 +409,12 @@ details.fold > div{padding:0 16px 16px}
 const LAUNCH_AT   = Date.parse('2026-12-12T17:00:00+01:00');
 const STORE_KEY   = 'auctionBingo.v2';
 const ROUNDS      = 7;
+const DEALER      = '__dealer';
 const START_WONS  = 30;
 const MIN_P = 3, MAX_P = 8;
 const SHAPES = ['tri', 'cir', 'sta'];
+// Grille commune à tous les joueurs (disposition de l'émission) : 3 ▲, 4 ●, 2 ★
+const GRID = ['tri','cir','tri', 'cir','sta','cir', 'sta','cir','tri'];
 const SH = {
   tri: { name: 'Triangle', plural: 'Triangles' },
   cir: { name: 'Cercle',   plural: 'Cercles'   },
@@ -462,6 +465,7 @@ function load() {
     }
     // Sécurité : après un rechargement, on ne réaffiche jamais directement un écran privé
     if (s.sub === 'private') s.sub = 'buffer';
+    if (s.peek && s.peek.pid !== DEALER) s.peek = null;   // ancien coup d'œil joueur : supprimé
     if (s.peek && s.peek.sub === 'private') s.peek.sub = 'buffer';
     return s;
   } catch (e) { return null; }
@@ -476,7 +480,6 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', 
 const pad = n => String(n).padStart(2, '0');
 const plural = (n, a, b) => n > 1 ? b : a;
 const isDealer = () => state.setup.mode === 'dealer';
-const DEALER = '__dealer';
 
 /* =========================================================
    AVATARS & PHOTOS
@@ -529,12 +532,12 @@ function shapeSVG(s) {
 }
 const inlineShape = s => `<span class="inline-shape s-${s}">${shapeSVG(s)}</span>`;
 // Forme blanche « au trait », comme sur les écrans de l'émission
-function outlineSVG(s) {
+function outlineSVG(s, col) {
   const body = {
     tri: '<path d="M12 4.2 21 19.6H3Z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="miter"/>',
     cir: '<circle cx="12" cy="12" r="8.4" fill="none" stroke="#fff" stroke-width="2.3"/>',
     sta: '<path d="M12 2.9l2.7 5.7 6.2.7-4.6 4.2 1.3 6.1L12 16.5l-5.6 3.1 1.3-6.1L3.1 9.3l6.2-.7z" fill="none" stroke="#fff" stroke-width="1.7" stroke-linejoin="miter"/>',
-  }[s];
+  }[s].replace(/#fff/g, col || '#fff');
   return `<svg viewBox="0 0 24 24" aria-label="${SH[s].name}" role="img">${body}</svg>`;
 }
 const ICONS = {
@@ -562,15 +565,6 @@ function shuffle(a) {
   for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
   return a;
 }
-function makeGrids(n) {
-  const seen = new Set(), out = [];
-  while (out.length < n) {
-    const g = shuffle(['tri','tri','tri','cir','cir','cir','sta','sta','sta']);
-    const k = g.join();
-    if (!seen.has(k)) { seen.add(k); out.push(g); }
-  }
-  return out;
-}
 function combos(arr, k) {
   if (k <= 0) return [[]];
   if (k >= arr.length) return [arr.slice()];
@@ -587,7 +581,7 @@ function combos(arr, k) {
 function evaluate(p) {
   const idx = { tri: [], cir: [], sta: [] };
   p.grid.forEach((s, i) => idx[s].push(i));
-  const opts = SHAPES.map(s => combos(idx[s], Math.min(p.acquired[s], 3)));
+  const opts = SHAPES.map(s => combos(idx[s], Math.min(p.acquired[s], idx[s].length)));
   let best = null;
   for (const a of opts[0]) for (const b of opts[1]) for (const c of opts[2]) {
     const on = new Array(9).fill(false);
@@ -596,7 +590,7 @@ function evaluate(p) {
     if (!best || lines.length > best.bingos) best = { on, lines, bingos: lines.length };
   }
   best.cells = best.on.filter(Boolean).length;
-  best.surplus = SHAPES.reduce((t, s) => t + Math.max(0, p.acquired[s] - 3), 0);
+  best.surplus = SHAPES.reduce((t, s) => t + Math.max(0, p.acquired[s] - p.grid.filter(x => x === s).length), 0);
   return best;
 }
 function cmpRows(a, b) {
@@ -697,9 +691,8 @@ function startGame() {
   ui.setupError = '';
   state.setup.names = names.slice();
   state.setup.photos = rows.map(r => r.ph);
-  const grids = makeGrids(names.length);
   state.players = names.map((n, i) => ({
-    id: 'p' + i, name: n, photo: rows[i].ph, grid: grids[i], wons: START_WONS,
+    id: 'p' + i, name: n, photo: rows[i].ph, grid: GRID.slice(), wons: START_WONS,
     acquired: { tri: 0, cir: 0, sta: 0 }, eliminated: false, elimRound: null,
   }));
   state.history = []; state.round = 1; state.endReason = null;
@@ -803,8 +796,8 @@ function nextRound() {
 function header() {
   const inGame = state.phase !== 'setup';
   return `<header class="top">
-    <div class="brand"><span class="brand-mark">${SHAPES.map(s => `<span class="s-${s}">${shapeSVG(s)}</span>`).join('')}</span>Auction Bingo</div>
-    ${inGame && state.phase !== 'end' ? `<div class="round-pill">Manche <b>${state.round}</b>/${ROUNDS}</div>` : ''}
+    <div class="brand"><span class="brand-mark">${SHAPES.map(s => `<span class="s-${s}">${shapeSVG(s)}</span>`).join('')}</span><span class="brand-txt">Le Bingo des enchères</span></div>
+    ${inGame && state.phase !== 'end' ? `<div class="round-pill"><span class="rp-lbl">Manche </span><b>${state.round}</b>/${ROUNDS}</div>` : ''}
     <div class="top-actions">
       <button class="icon-btn" data-act="toggleSound" aria-label="${state.sound ? 'Couper le son' : 'Activer le son'}" title="${state.sound ? 'Couper le son' : 'Activer le son'}">${icon(state.sound ? 'sound' : 'mute')}</button>
       ${inGame ? `<button class="icon-btn" data-act="askReset" aria-label="Nouvelle partie" title="Nouvelle partie">${icon('reset')}</button>` : ''}
@@ -831,26 +824,25 @@ function privateFlag(p) {
   return `<div class="private-flag">${icon('lock')}<b>Écran privé</b><span class="who">${esc(p.name)}</span></div>`;
 }
 
-function gridHTML(p, ev, small) {
-  ev = ev || evaluate(p);
-  const inLine = new Set(ev.lines.flat());
-  return `<div class="bgrid ${small ? 'sm' : ''}">${p.grid.map((s, i) =>
-    `<div class="cell s-${s} ${ev.on[i] ? 'on' : ''} ${inLine.has(i) ? 'line' : ''}">${shapeSVG(s)}</div>`).join('')}</div>`;
+// ev absent : grille de référence (toutes les cases en couleur, rien de coché)
+function gridHTML(grid, ev, small) {
+  const inLine = ev ? new Set(ev.lines.flat()) : new Set();
+  return `<div class="bgrid ${small ? 'sm' : ''} ${ev ? 'res' : ''}">${grid.map((s, i) =>
+    `<div class="cell s-${s} ${ev && ev.on[i] ? 'on' : ''} ${inLine.has(i) ? 'line' : ''}">${outlineSVG(s, '#1e1f4d')}</div>`).join('')}</div>`;
 }
 function acqHTML(p) {
   return `<div class="acqs">${SHAPES.map(s => {
-    const a = p.acquired[s];
-    return `<div class="acq s-${s}">${shapeSVG(s)}<b>${Math.min(a, 3)}/3</b>${a > 3 ? `<span class="surplus">+${a - 3}</span>` : ''}</div>`;
+    const a = p.acquired[s], n = p.grid.filter(x => x === s).length;
+    return `<div class="acq s-${s}">${shapeSVG(s)}<b>${Math.min(a, n)}/${n}</b>${a > n ? `<span class="surplus">+${a - n}</span>` : ''}</div>`;
   }).join('')}</div>`;
 }
+// Écran privé : seul le solde est personnel — les formes remportées restent inconnues de tous
 function inventory(p) {
-  const ev = evaluate(p);
   return `<div class="card inv">
-    ${gridHTML(p, ev)}
+    ${gridHTML(p.grid)}
     <div class="inv-side">
       <div><div class="eyebrow" style="margin-bottom:4px">Solde</div><div class="wallet"><b>${p.wons}</b><span>${plural(p.wons, 'won', 'wons')}</span></div></div>
-      <div><div class="eyebrow" style="margin-bottom:6px">Formes acquises</div>${acqHTML(p)}</div>
-      <div class="score-line"><b>${ev.bingos}</b> ${plural(ev.bingos, 'bingo', 'bingos')} · <b>${ev.cells}</b>/9 cases</div>
+      <p class="score-line">Grille commune à tous. Les formes remportées ne seront révélées qu'à la fin de la partie.</p>
     </div>
   </div>`;
 }
@@ -941,7 +933,7 @@ function dealerTableView() {
   const h = state.history[state.history.length - 1];
   return `${dealerFlag()}
     <div><div class="eyebrow">Manche ${state.round} · Tableau du croupier</div><h2>Inventaires</h2>
-      <p class="mut" style="margin-top:6px">Gagnants de la manche et état de chaque joueur. Le croupier peut informer chacun en privé.</p></div>
+      <p class="mut" style="margin-top:6px">Gagnants de la manche et état de chaque joueur. Réservé au croupier : rien ne doit être dévoilé aux joueurs avant la fin.</p></div>
     <div class="dcards">${state.players.map(p => {
       const s = h.votes[p.id], r = s && h.results[s], w = r && r.winners.includes(p.id), ev = evaluate(p);
       return `<div class="dcard">
@@ -952,7 +944,7 @@ function dealerTableView() {
               ? `<span class="won">remportée : +${r.qty} ${plural(r.qty, SH[s].name.toLowerCase(), SH[s].plural.toLowerCase())}${r.winners.length > 1 ? ' (partagé)' : ''}</span>`
               : '<span class="dim">perdue</span>'}`
           : '<span class="dim">N’a pas joué cette manche</span>'}</div>
-        <div class="dcard-b"><div class="mini">${gridHTML(p, ev, true)}</div>
+        <div class="dcard-b"><div class="mini">${gridHTML(p.grid, ev, true)}</div>
           <div style="display:flex;flex-direction:column;gap:8px">${acqHTML(p)}<div class="score-line"><b>${ev.bingos}</b> ${plural(ev.bingos, 'bingo', 'bingos')} · <b>${ev.cells}</b>/9</div></div></div>
       </div>`;
     }).join('')}</div>
@@ -1002,12 +994,12 @@ function teaserView() {
     ['sta', 78, 66, 84, -2], ['tri', 55, 88, 40, -8], ['cir', 40, 6, 30, -5],
   ].map(([s, x, y, size, delay]) =>
     `<span class="s-${s}"><svg viewBox="0 0 24 24" style="left:${x}%;top:${y}%;width:${size}px;height:${size}px;color:var(--c);animation-delay:${delay}s">${shapeSVG(s).replace(/^<svg[^>]*>|<\/svg>$/g, '')}</svg></span>`).join('');
-  const demo = { grid: ['sta','tri','cir','cir','sta','tri','tri','cir','sta'], acquired: { tri: 1, cir: 0, sta: 3 } };
+  const demo = { grid: GRID, acquired: { tri: 2, cir: 2, sta: 2 } };
   return `<div class="floaters">${floaters}</div>
   <div class="teaser">
     <div class="eyebrow"><span class="live-dot"></span>Ouverture des enchères</div>
-    <h1 class="title">Auction<br><em>Bingo</em></h1>
-    <p class="lede" style="margin:0 auto">Le bingo aux enchères. Une grille secrète, 30 wons, et personne en qui avoir confiance.</p>
+    <h1 class="title">Le Bingo<br><em>des enchères</em></h1>
+    <p class="lede" style="margin:0 auto">Une grille commune, 30 wons, et des gains que personne ne connaît avant la fin.</p>
     <div class="cd" role="timer" aria-live="off">
       <div><b data-cd="d">--</b><span>Jours</span></div>
       <div><b data-cd="h">--</b><span>Heures</span></div>
@@ -1015,7 +1007,7 @@ function teaserView() {
       <div><b data-cd="s">--</b><span>Sec</span></div>
     </div>
     <div class="cd-date">Samedi 12 décembre · 17h00<small>Heure de Paris</small></div>
-    <div class="teaser-grid">${gridHTML(demo, null, true)}</div>
+    <div class="teaser-grid">${gridHTML(GRID, evaluate(demo), true)}</div>
     <div class="feats">
       <div class="feat"><b>7</b>manches</div>
       <div class="feat"><b>3</b>formes à rafler</div>
@@ -1037,8 +1029,8 @@ function setupView() {
   const s = state.setup;
   return `<section class="hero">
       <div class="eyebrow">Pass &amp; Play · Inspiré de The Devil's Plan</div>
-      <h1 class="title">Auction<br><em>Bingo</em></h1>
-      <p class="lede">Le bingo aux enchères. 7 manches, 30 wons, une grille 3×3 secrète.</p>
+      <h1 class="title">Le Bingo<br><em>des enchères</em></h1>
+      <p class="lede">7 manches, 30 wons, et des gains que personne ne connaît avant la fin.</p>
     </section>
     <div class="card">
       <div class="card-h"><span>Mode de jeu</span></div>
@@ -1081,11 +1073,12 @@ function setupView() {
       <summary>Règles du jeu</summary>
       <ol>
         <li>En mode <b>Croupier</b>, chaque joueur glisse sa forme puis sa mise au croupier en secret (à l'oreille ou sur papier) ; seul le croupier voit les écrans de saisie.</li>
-        <li>Chaque joueur reçoit une <b>grille 3×3 secrète</b> : 3 ${inlineShape('tri')}, 3 ${inlineShape('cir')}, 3 ${inlineShape('sta')}.</li>
+        <li>Tous les joueurs ont la <b>même grille 3×3</b> : 3 ${inlineShape('tri')}, 4 ${inlineShape('cir')}, 2 ${inlineShape('sta')}. Les exemplaires gagnés en trop sont perdus.</li>
+        <li>Les <b>formes remportées restent secrètes</b> jusqu'à la fin, même pour leur gagnant : chacun ne connaît que son solde.</li>
         <li>Chacun démarre avec <b>30 wons</b>. On mise le montant entier de son choix (minimum 1 won).</li>
         <li><b>Vote secret</b> : chacun choisit une forme. Le lot d'une forme = le nombre de joueurs qui l'ont choisie.</li>
         <li><b>Enchère secrète</b> : la plus haute mise remporte le lot de sa forme. En cas d'égalité, le lot est partagé (arrondi à l'inférieur). <b>Toute mise est dépensée</b>, gagnée ou perdue.</li>
-        <li>Les mises gagnantes sont annoncées, <b>sauf la plus haute de la manche</b>. Les gagnants restent secrets.</li>
+        <li>Les mises gagnantes sont annoncées, <b>sauf la plus haute de la manche</b> (SECRET). Personne ne sait qui a gagné.</li>
         <li>Un joueur à 0 won est <b>éliminé</b> et classé dernier.</li>
         <li>Après 7 manches : classement par <b>bingos</b>, puis <b>cases cochées</b>, puis <b>wons restants</b>.</li>
       </ol>
@@ -1160,8 +1153,7 @@ function bidView() {
       </div>
     </div>
     <p class="after">Il te restera <b>${p.wons - ui.bid}</b> ${plural(p.wons - ui.bid, 'won', 'wons')}. La mise est dépensée, que tu gagnes ou non.</p>
-    <button class="btn btn-primary btn-big btn-block" data-act="confirmBid">${icon('lock')}Sceller ma mise : ${ui.bid} ${plural(ui.bid, 'won', 'wons')}</button>
-    <details class="fold"><summary>Voir ma grille</summary><div>${inventory(p)}</div></details>`;
+    <button class="btn btn-primary btn-big btn-block" data-act="confirmBid">${icon('lock')}Sceller ma mise : ${ui.bid} ${plural(ui.bid, 'won', 'wons')}</button>`;
 }
 
 function bidLabel(h, s) {
@@ -1179,10 +1171,8 @@ function resultView() {
       <h2>Mises gagnantes</h2>
     </div>
     ${tilesHTML(h)}
-    <p class="note">Les gagnants restent anonymes. La mise gagnante la plus haute de la manche reste <b>SECRET</b>.</p>
-    ${isDealer()
-      ? `<button class="btn btn-ghost btn-block" data-act="dealerTable">${icon('lock')}Tableau du croupier</button>`
-      : `<button class="btn btn-ghost btn-block" data-act="peekOpen">${icon('eye')}Consulter mon inventaire privé</button>`}
+    <p class="note">Personne ne sait qui a gagné, pas même les gagnants : tout sera révélé à la fin. La mise gagnante la plus haute de la manche reste <b>SECRET</b>.</p>
+    ${isDealer() ? `<button class="btn btn-ghost btn-block" data-act="dealerTable">${icon('lock')}Tableau du croupier</button>` : ''}
     <button class="btn btn-primary btn-big btn-block" data-act="nextRound">${last ? 'Voir le classement final' : `Manche ${state.round + 1}`}${icon('arrow')}</button>`;
 }
 
@@ -1193,38 +1183,7 @@ function peekView() {
       ? dealerBuffer('Tableau du croupier', 'Les joueurs détournent le regard pendant que le croupier consulte les inventaires.', 'peekShow', 'peekClose')
       : dealerTableView();
   }
-  if (pk.sub === 'choose') {
-    return `<div><div class="eyebrow">Coup d'œil secret</div><h2>Qui consulte ?</h2>
-      <p class="mut" style="margin-top:6px">Chacun peut vérifier en privé s'il a remporté son enchère.</p></div>
-      <div class="plist">${state.players.map(p => `<button data-act="peekPick" data-pid="${p.id}">${esc(p.name)}</button>`).join('')}</div>
-      <button class="btn btn-ghost btn-block" data-act="peekClose">Retour au bilan</button>`;
-  }
-  const p = byId(pk.pid);
-  if (pk.sub === 'buffer') {
-    return `<div class="buffer">
-      <div class="eyebrow">Coup d'œil secret</div>
-      ${p.photo ? ava(p, 'xl') : `<div class="pass-icon">${icon('phone')}</div>`}
-      <p class="pass-txt">Passez l'appareil à</p>
-      <div class="pass-name">${esc(p.name)}</div>
-      <button class="btn btn-primary btn-big" data-act="peekShow">${icon('eye')}Je suis ${esc(p.name)}, afficher mon écran</button>
-      <button class="btn btn-ghost" style="margin-top:0" data-act="peekClose">Annuler</button>
-    </div>`;
-  }
-  const h = state.history[state.history.length - 1];
-  const s = h.votes[p.id], bid = h.bids[p.id];
-  let out;
-  if (!s) out = `<div class="outcome lose"><b>Pas de participation</b><span class="mut">Tu n'as pas joué cette manche.</span></div>`;
-  else {
-    const r = h.results[s];
-    out = r.winners.includes(p.id)
-      ? `<div class="outcome win"><b>Enchère remportée</b>Avec ${bid} ${plural(bid, 'won', 'wons')} sur ${inlineShape(s)} : tu gagnes <b style="display:inline;font-family:var(--mono);font-size:18px">+${r.qty}</b> ${plural(r.qty, SH[s].name.toLowerCase(), SH[s].plural.toLowerCase())}${r.winners.length > 1 ? ' (lot partagé)' : ''}.</div>`
-      : `<div class="outcome lose"><b>Enchère perdue</b><span class="mut">Ta mise de ${bid} ${plural(bid, 'won', 'wons')} sur ${inlineShape(s)} n'a pas suffi.</span></div>`;
-  }
-  return `${privateFlag(p)}
-    <div><div class="eyebrow">Coup d'œil secret · Manche ${state.round}</div><h2>Ton inventaire</h2></div>
-    ${out}
-    ${inventory(p)}
-    <button class="btn btn-primary btn-big btn-block" data-act="peekClose">${icon('lock')}Cacher et rendre l'appareil</button>`;
+  return '';
 }
 
 function endView() {
@@ -1234,20 +1193,20 @@ function endView() {
   return `<section class="hero" style="text-align:center;align-items:center">
       <div class="eyebrow">Fin de partie · Révélation totale</div>
       <h1 class="title" style="font-size:clamp(40px,12vw,68px)">${coWin.length > 1 ? 'Égalité' : esc(winner.p.name)}</h1>
-      <p class="lede">${coWin.length > 1 ? coWin.map(r => esc(r.p.name)).join(' & ') + ' se partagent la victoire.' : 'remporte l’Auction Bingo.'}</p>
+      <p class="lede">${coWin.length > 1 ? coWin.map(r => esc(r.p.name)).join(' & ') + ' se partagent la victoire.' : 'remporte le Bingo des enchères.'}</p>
       ${state.endReason ? `<p class="note">${esc(state.endReason)}</p>` : ''}
     </section>
     <div class="rank">${rows.map((r, i) => `<div class="rrow ${r.rank === 1 ? 'first' : ''}">
       <div class="pos">${r.rank}</div>
       <div><div class="nm" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">${ava(r.p, 'sm')}${esc(r.p.name)}${r.p.eliminated ? `<span class="tag">Éliminé·e M${r.p.elimRound}</span>` : ''}</div>
-        <div class="st"><b>${r.ev.cells}</b>/9 cases · <b>${r.p.wons}</b> ${plural(r.p.wons, 'won', 'wons')} restants</div></div>
+        <div class="st"><b>${r.ev.cells}</b>/9 cases · <b>${r.p.wons}</b> ${plural(r.p.wons, 'won restant', 'wons restants')}</div></div>
       <div class="bg">${r.ev.bingos}<small>${plural(r.ev.bingos, 'bingo', 'bingos')}</small></div>
     </div>`).join('')}</div>
 
     <div class="sec-title"><span class="eyebrow">Les grilles</span></div>
     <div class="pcards">${rows.map(r => `<div class="pcard">
       <div class="nm" style="display:flex;align-items:center;gap:8px">${ava(r.p, 'sm')}${esc(r.p.name)}</div>
-      ${gridHTML(r.p, r.ev, true)}
+      ${gridHTML(r.p.grid, r.ev, true)}
       ${acqHTML(r.p)}
       ${r.ev.surplus ? `<div class="score-line">${r.ev.surplus} en surplus</div>` : ''}
     </div>`).join('')}</div>
@@ -1419,8 +1378,6 @@ const ACTIONS = {
   dealerTable() { state.peek = { pid: DEALER, sub: 'buffer' }; commit(); },
   nextRound,
 
-  peekOpen() { state.peek = { pid: null, sub: 'choose' }; commit(); },
-  peekPick(d) { state.peek = { pid: d.pid, sub: 'buffer' }; commit(); },
   peekShow() { state.peek.sub = 'private'; commit(); },
   peekClose() { state.peek = null; commit(); },
 
