@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0809">
+<meta name="description" content="Auction Bingo — le bingo aux enchères en Pass & Play, inspiré de The Devil's Plan.">
+<title>Auction Bingo — Le Bingo aux enchères</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..800;1,6..96,500..800&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0809; --bg2:#120e10; --panel:rgba(24,18,20,.78); --panel2:rgba(34,26,28,.9);
+  --line:rgba(214,172,87,.20); --line2:rgba(255,255,255,.07);
+  --gold:#d6ac57; --gold2:#f3d58c; --red:#c4122f; --red2:#ff3b55;
+  --txt:#f3ece4; --mut:#a89e95; --dim:#6f6660;
+  --tri:#ec4d52; --cir:#2bc48a; --sta:#f2bf35; --warn:#ff9f1a;
+  --concrete:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .18 0 0 0 0 .2 0 0 0 0 .22 .55 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .25 0 0 0 0 .28 0 0 0 0 .3 .9 0 0 0 -.25'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23c)' opacity='.6'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 120% 90% at 35% 25%, #aab1b5, #858d92 80%);
+  --serif:'Bodoni Moda', 'Didot', Georgia, serif;
+  --sans:'Manrope', system-ui, -apple-system, sans-serif;
+  --mono:'DM Mono', ui-monospace, SFMono-Regular, monospace;
+  --r:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--txt);font-family:var(--sans);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased;min-height:100vh;min-height:100dvh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% -12%, rgba(196,18,47,.30), transparent 62%),
+    radial-gradient(ellipse 70% 45% at 50% 112%, rgba(214,172,87,.11), transparent 60%);}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px);background-size:100% 3px}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;touch-action:manipulation}
+button:disabled{cursor:not-allowed;opacity:.4}
+input{font:inherit;color:inherit}
+#app{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 10px) 18px calc(env(safe-area-inset-bottom) + 96px);min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+.ic{width:20px;height:20px;flex:none}
+.mut{color:var(--mut)} .dim{color:var(--dim)}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.title{font-family:var(--serif);font-weight:700;font-size:clamp(46px,14vw,84px);line-height:.92;letter-spacing:-.02em}
+.title em{font-style:italic;color:var(--gold2);font-weight:600}
+h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,8vw,40px);line-height:1.05;letter-spacing:-.01em}
+.lede{color:var(--mut);font-size:16px;max-width:34ch}
+
+/* ---------- Header ---------- */
+.top{display:flex;align-items:center;gap:10px;padding:6px 0 14px;border-bottom:1px solid var(--line2);margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:8px;font-family:var(--serif);font-weight:700;font-size:17px;letter-spacing:.01em;white-space:nowrap}
+.brand-mark{display:flex;gap:2px}
+.brand-mark svg{width:11px;height:11px}
+.round-pill{margin-left:auto;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);border:1px solid var(--line);border-radius:99px;padding:5px 11px;white-space:nowrap}
+.round-pill b{color:var(--gold2);font-size:14px}
+.top-actions{display:flex;gap:6px;margin-left:auto}
+.round-pill + .top-actions{margin-left:0}
+.icon-btn{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;border:1px solid var(--line2);background:rgba(255,255,255,.03);color:var(--mut)}
+.icon-btn:active{transform:scale(.95)}
+
+.main{flex:1;display:flex;flex-direction:column;gap:18px;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:14px 22px;border-radius:14px;font-weight:700;font-size:16px;letter-spacing:.01em;transition:transform .12s, filter .2s;text-align:center}
+.btn:active:not(:disabled){transform:scale(.98)}
+.btn-primary{background:linear-gradient(180deg,#e9c272,#c3923c);color:#1b1206;box-shadow:0 10px 30px -10px rgba(214,172,87,.6), inset 0 1px 0 rgba(255,255,255,.4)}
+.btn-red{background:linear-gradient(180deg,#e0233f,#a10e26);color:#fff;box-shadow:0 10px 30px -10px rgba(196,18,47,.7), inset 0 1px 0 rgba(255,255,255,.25)}
+.btn-ghost{border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--txt)}
+.btn-block{width:100%}
+.btn-big{min-height:64px;font-size:17px}
+.btn-row{display:flex;gap:10px}
+.btn-row > *{flex:1}
+
+/* ---------- Cards ---------- */
+.card{background:var(--panel);border:1px solid var(--line2);border-radius:var(--r);padding:18px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.card-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}
+.card-h > span:first-child{font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase}
+.note{font-size:13px;color:var(--mut);border-left:2px solid var(--gold);padding:2px 0 2px 12px}
+.banner{border:1px solid rgba(196,18,47,.45);background:rgba(196,18,47,.12);border-radius:12px;padding:12px 14px;font-size:14px}
+.banner b{color:#ff8a9b}
+
+/* ---------- Setup ---------- */
+.hero{padding:10px 0 6px;display:flex;flex-direction:column;gap:14px}
+.name-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.name-row .num{width:26px;font-family:var(--mono);color:var(--dim);font-size:13px}
+.name-row input{flex:1;min-width:0;height:48px;border-radius:12px;border:1px solid var(--line2);background:rgba(0,0,0,.35);padding:0 14px;font-size:16px;outline:none;transition:border-color .2s}
+.name-row input:focus{border-color:var(--gold)}
+.name-row .icon-btn{width:44px;height:48px}
+.add-btn{width:100%;height:46px;border:1px dashed var(--line);border-radius:12px;color:var(--gold);font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px}
+.setting{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0}
+.setting + .setting{border-top:1px solid var(--line2)}
+.setting .lbl b{display:block;font-weight:600}
+.setting .lbl span{font-size:13px;color:var(--mut)}
+.switch{width:52px;height:30px;border-radius:99px;background:rgba(255,255,255,.1);position:relative;flex:none;transition:background .2s}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .2s}
+.switch[aria-checked="true"]{background:var(--gold)}
+.switch[aria-checked="true"]::after{transform:translateX(22px)}
+.range{width:100%;accent-color:var(--gold);margin:6px 0 2px}
+.range-val{font-family:var(--mono);color:var(--gold2);font-size:15px}
+.err{color:#ff8a9b;font-size:14px;text-align:center}
+details.rules{border:1px solid var(--line2);border-radius:var(--r);background:var(--panel)}
+details.rules summary{list-style:none;padding:16px 18px;font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;display:flex;justify-content:space-between}
+details.rules summary::-webkit-details-marker{display:none}
+details.rules summary::after{content:"+";color:var(--gold);font-size:18px;line-height:1}
+details.rules[open] summary::after{content:"−"}
+.rules ol{padding:0 18px 18px 38px;display:flex;flex-direction:column;gap:8px;color:var(--mut);font-size:14px}
+.rules ol b{color:var(--txt)}
+
+/* ---------- Shapes ---------- */
+.s-tri{--c:var(--tri);--tv:#c9363c} .s-cir{--c:var(--cir);--tv:#1fb680} .s-sta{--c:var(--sta);--tv:#e3b22b}
+.shp{color:var(--c);display:block}
+.inline-shape{display:inline-flex;vertical-align:-3px;color:var(--c)}
+.inline-shape svg{width:16px;height:16px}
+
+/* ---------- Timer ---------- */
+.timer{border:1px solid var(--line);border-radius:22px;padding:22px 16px 16px;background:radial-gradient(ellipse at 50% 0%, rgba(214,172,87,.08), transparent 70%), var(--panel);text-align:center}
+.timer-digits{font-family:var(--mono);font-weight:500;font-size:clamp(72px,25vw,148px);line-height:1;letter-spacing:-.04em;font-variant-numeric:tabular-nums;transition:color .4s}
+.timer-status{height:20px;margin-top:6px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.timer-bar{height:4px;border-radius:4px;background:rgba(255,255,255,.07);overflow:hidden;margin:12px 4px 16px}
+.timer-bar i{display:block;height:100%;background:var(--gold);transform-origin:left;transition:transform .25s linear, background .4s}
+.timer-ctrls{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:8px}
+.timer-ctrls button{min-height:50px;border-radius:12px;border:1px solid var(--line2);background:rgba(255,255,255,.04);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;gap:6px}
+.timer-ctrls button.play{background:var(--gold);color:#1b1206;border-color:transparent}
+.timer.running .timer-ctrls button.play{background:rgba(255,255,255,.1);color:var(--txt)}
+.timer-ctrls .ic{width:16px;height:16px}
+.timer.warn .timer-digits{color:var(--warn)} .timer.warn .timer-bar i{background:var(--warn)}
+.timer.crit .timer-digits{color:var(--red2);animation:blink 1s steps(2,start) infinite} .timer.crit .timer-bar i{background:var(--red2)}
+.timer.done .timer-digits{color:var(--red2)} .timer.done{border-color:rgba(255,59,85,.5)}
+.timer.done .timer-status{color:var(--red2)}
+@keyframes blink{to{opacity:.25}}
+.timer-off{text-align:center;color:var(--dim);font-size:13px;padding:6px}
+
+/* ---------- Player strip ---------- */
+.pstrip{display:flex;flex-wrap:wrap;gap:8px}
+.pchip{border:1px solid var(--line2);border-radius:99px;padding:6px 12px;font-size:14px;font-weight:600;background:rgba(255,255,255,.03);display:inline-flex;align-items:center;gap:6px}
+.pchip.out{opacity:.5;text-decoration:line-through}
+.pchip .inline-shape svg{width:13px;height:13px}
+
+/* ---------- Buffer ---------- */
+.buffer{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;padding:20px 0}
+.pass-icon{width:76px;height:76px;border-radius:22px;border:1px solid var(--line);display:grid;place-items:center;color:var(--gold);margin:10px 0;animation:bob 2.6s ease-in-out infinite}
+.pass-icon .ic{width:34px;height:34px}
+@keyframes bob{50%{transform:translateY(-6px) rotate(-4deg)}}
+.pass-txt{font-size:16px;color:var(--mut)}
+.pass-name{font-family:var(--serif);font-weight:700;font-style:italic;font-size:clamp(44px,13vw,72px);line-height:1;color:var(--gold2);word-break:break-word}
+.dots{display:flex;gap:6px;margin-top:14px}
+.dots i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.12)}
+.dots i.done{background:var(--gold)} .dots i.now{background:var(--gold2);box-shadow:0 0 0 4px rgba(214,172,87,.2)}
+.buffer .btn{margin-top:18px;max-width:420px;width:100%}
+
+/* ---------- Private ---------- */
+.private-flag{display:flex;align-items:center;gap:10px;background:repeating-linear-gradient(-45deg, rgba(196,18,47,.16) 0 10px, rgba(196,18,47,.08) 10px 20px);border:1px solid rgba(196,18,47,.4);border-radius:12px;padding:10px 14px;font-size:13px}
+.private-flag b{white-space:nowrap;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#ff8a9b;font-size:11px}
+.private-flag .who{margin-left:auto;font-weight:700}
+.inv{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;align-items:center}
+.inv-side{display:flex;flex-direction:column;gap:10px}
+.wallet{display:flex;align-items:baseline;gap:6px}
+.wallet b{font-family:var(--mono);font-size:34px;color:var(--gold2);line-height:1}
+.wallet span{color:var(--mut);font-size:13px}
+.acqs{display:flex;flex-direction:column;gap:6px}
+.acq{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:15px}
+.acq svg{width:16px;height:16px;color:var(--c)}
+.acq .surplus{font-size:11px;color:var(--dim);border:1px solid var(--line2);border-radius:6px;padding:0 5px}
+.score-line{font-size:13px;color:var(--mut)}
+.score-line b{color:var(--txt)}
+
+/* ---------- Bingo grid ---------- */
+.bgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;aspect-ratio:1;width:100%}
+.cell{border-radius:12px;border:1.5px solid rgba(255,255,255,.08);background:rgba(0,0,0,.35);display:grid;place-items:center;position:relative;transition:all .3s}
+.cell svg{width:46%;height:46%;color:var(--c);opacity:.32}
+.cell.on{background:color-mix(in srgb, var(--c) 20%, rgba(0,0,0,.4));border-color:var(--c);box-shadow:0 0 18px -4px var(--c), inset 0 0 12px -6px var(--c)}
+.cell.on svg{opacity:1}
+.cell.line{outline:2px solid var(--gold2);outline-offset:2px}
+.bgrid.sm{gap:4px}
+.bgrid.sm .cell{border-radius:7px}
+
+/* ---------- Shape choice ---------- */
+.pick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pick button{border:1.5px solid var(--line2);border-radius:18px;padding:18px 6px 14px;background:rgba(255,255,255,.03);display:flex;flex-direction:column;align-items:center;gap:10px;font-weight:700;transition:all .2s}
+.pick button svg{width:46px;height:46px;color:var(--c)}
+.pick button[aria-pressed="true"]{border-color:var(--c);background:color-mix(in srgb, var(--c) 16%, transparent);box-shadow:0 0 30px -8px var(--c);transform:translateY(-2px)}
+
+/* ---------- Shape cards (reveal / result) ---------- */
+.scards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.scard{border:1px solid color-mix(in srgb, var(--c) 35%, transparent);border-radius:18px;padding:16px 10px;text-align:center;background:linear-gradient(180deg, color-mix(in srgb, var(--c) 12%, transparent), transparent 70%), var(--panel);display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0}
+.scard > svg{width:40px;height:40px;color:var(--c)}
+.scard .sname{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);font-weight:700}
+.scard .mult{font-family:var(--mono);font-size:34px;line-height:1;color:var(--txt)}
+.scard .mult small{font-size:16px;color:var(--mut)}
+.scard .sub{font-size:12px;color:var(--mut)}
+.scard .names{display:flex;flex-direction:column;gap:3px;font-size:13px;font-weight:600;word-break:break-word}
+.scard.empty{opacity:.45}
+.scard .bid{font-family:var(--mono);font-size:30px;line-height:1.1}
+.scard .bid small{font-size:13px;color:var(--mut)}
+.masked{font-family:var(--sans) !important;font-size:13px !important;font-weight:800;letter-spacing:.2em;color:#ff8a9b;border:1px dashed rgba(255,59,85,.5);border-radius:8px;padding:8px 6px;background:repeating-linear-gradient(-45deg, rgba(196,18,47,.18) 0 6px, transparent 6px 12px)}
+
+/* ---------- Bid ---------- */
+.bid-target{display:flex;align-items:center;gap:16px;border:1px solid color-mix(in srgb, var(--c) 40%, transparent);border-radius:18px;padding:16px;background:linear-gradient(90deg, color-mix(in srgb, var(--c) 14%, transparent), transparent)}
+.bid-target > svg{width:54px;height:54px;color:var(--c);flex:none}
+.bid-target b{font-size:18px}
+.bid-target p{font-size:13px;color:var(--mut)}
+.stepper{display:flex;align-items:center;justify-content:center;gap:16px;padding:8px 0}
+.stepper button{width:64px;height:64px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;background:rgba(255,255,255,.04);color:var(--gold2)}
+.stepper button .ic{width:26px;height:26px}
+.stepper .amount{min-width:130px;text-align:center}
+.stepper .amount b{display:block;font-family:var(--mono);font-size:72px;line-height:1;color:var(--gold2)}
+.stepper .amount span{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+.chips{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.chips button{height:44px;border-radius:12px;border:1px solid var(--line2);background:rgba(255,255,255,.03);font-family:var(--mono);font-size:14px}
+.chips button.allin{color:#ff8a9b;border-color:rgba(255,59,85,.4);font-family:var(--sans);font-weight:700;font-size:13px}
+.after{text-align:center;font-size:13px;color:var(--mut)}
+.after b{color:var(--txt);font-family:var(--mono)}
+details.fold{border:1px solid var(--line2);border-radius:var(--r);background:var(--panel)}
+details.fold summary{list-style:none;padding:14px 16px;font-weight:600;font-size:14px;cursor:pointer;color:var(--mut)}
+details.fold summary::-webkit-details-marker{display:none}
+details.fold > div{padding:0 16px 16px}
+
+/* ---------- Sealed ---------- */
+.sealed{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;padding:30px 0}
+.seal{width:110px;height:110px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%, #e0233f, #7d0a1c);box-shadow:0 0 0 6px rgba(196,18,47,.15), 0 20px 50px -10px rgba(196,18,47,.6);color:#ffd9de}
+.seal .ic{width:42px;height:42px}
+
+/* ---------- Peek ---------- */
+.plist{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.plist button{min-height:58px;border-radius:14px;border:1px solid var(--line2);background:rgba(255,255,255,.04);font-weight:700;font-size:16px;word-break:break-word;padding:8px}
+.outcome{border-radius:16px;padding:16px;text-align:center;border:1px solid var(--line2)}
+.outcome.win{border-color:rgba(53,208,127,.5);background:rgba(53,208,127,.1)}
+.outcome.lose{border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.03)}
+.outcome b{display:block;font-family:var(--serif);font-size:26px;margin-bottom:4px}
+
+/* ---------- History ---------- */
+.hbar{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 18px calc(env(safe-area-inset-bottom) + 10px);background:linear-gradient(180deg, transparent, rgba(10,8,9,.94) 30%);}
+.hbar-in{max-width:644px;margin:0 auto;display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:rgba(20,15,17,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);width:100%}
+.hbar-in .lbl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:800;white-space:nowrap}
+.hbar-in .last{display:flex;gap:12px;font-family:var(--mono);font-size:14px;flex:1;justify-content:center;overflow:hidden}
+.hbar-in .last span{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.hbar-in .last svg{width:13px;height:13px;color:var(--c)}
+.hbar-in .last .q{color:#ff8a9b}
+.hbar-in .more{font-size:13px;font-weight:700;color:var(--gold2);white-space:nowrap}
+.overlay{position:fixed;inset:0;z-index:40;background:rgba(5,4,5,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center;animation:fadeo .2s}
+@keyframes fadeo{from{opacity:0}}
+.sheet{width:100%;max-width:680px;max-height:86vh;overflow:auto;background:var(--bg2);border:1px solid var(--line);border-bottom:0;border-radius:22px 22px 0 0;padding:20px 18px calc(env(safe-area-inset-bottom) + 20px);animation:up .28s cubic-bezier(.2,.8,.2,1)}
+@keyframes up{from{transform:translateY(40px);opacity:.4}}
+.sheet-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.sheet-h h3{font-family:var(--serif);font-size:24px}
+.hround{border:1px solid var(--line2);border-radius:14px;padding:14px;margin-bottom:10px}
+.hround-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.hround-h b{font-family:var(--serif);font-size:18px}
+.hrow{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:start;padding:6px 0;border-top:1px solid var(--line2);font-size:14px}
+.hrow:first-of-type{border-top:0}
+.hrow > svg{width:18px;height:18px;color:var(--c);margin-top:1px}
+.hrow .who{color:var(--mut)}
+.hrow .amt{font-family:var(--mono);font-weight:500}
+.hrow .amt.q{color:#ff8a9b;font-family:var(--sans);font-size:11px;font-weight:800;letter-spacing:.16em}
+
+/* ---------- Modal ---------- */
+.overlay.center{align-items:center;padding:20px}
+.modal{width:100%;max-width:420px;background:var(--bg2);border:1px solid var(--line);border-radius:20px;padding:24px;text-align:center;animation:up .25s cubic-bezier(.2,.8,.2,1)}
+.modal h3{font-family:var(--serif);font-size:26px;margin-bottom:10px;line-height:1.15}
+.modal p{color:var(--mut);margin-bottom:22px}
+
+/* ---------- End ---------- */
+.rank{display:flex;flex-direction:column;gap:10px}
+.rrow{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;border:1px solid var(--line2);border-radius:16px;padding:12px 14px;background:var(--panel)}
+.rrow.first{border-color:var(--gold);background:linear-gradient(90deg, rgba(214,172,87,.16), transparent), var(--panel)}
+.rrow .pos{font-family:var(--serif);font-weight:800;font-size:28px;color:var(--gold2);text-align:center}
+.rrow .nm{font-weight:800;font-size:17px;word-break:break-word}
+.rrow .st{font-size:12px;color:var(--mut)}
+.rrow .st b{color:var(--txt);font-family:var(--mono)}
+.rrow .bg{font-family:var(--mono);font-size:22px;text-align:right;line-height:1}
+.rrow .bg small{display:block;font-family:var(--sans);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:2px 7px;border-radius:6px;background:rgba(196,18,47,.2);color:#ff8a9b;margin-left:6px;vertical-align:2px}
+.pcards{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.pcard{border:1px solid var(--line2);border-radius:16px;padding:12px;background:var(--panel);display:flex;flex-direction:column;gap:10px;min-width:0}
+.pcard .nm{font-weight:800;word-break:break-word}
+.pcard .acqs{flex-direction:row;justify-content:space-between}
+.pcard .acq{font-size:12px;gap:4px}
+.pcard .acq svg{width:12px;height:12px}
+.sec-title{display:flex;align-items:center;gap:12px;margin-top:10px}
+.sec-title::after{content:"";flex:1;height:1px;background:var(--line)}
+.bidline{display:flex;justify-content:space-between;gap:8px;font-size:13px;padding:4px 0;border-top:1px solid var(--line2)}
+.bidline:first-of-type{border-top:0}
+.bidline .r{font-family:var(--mono);display:flex;align-items:center;gap:6px;white-space:nowrap}
+.bidline .r svg{width:13px;height:13px;color:var(--c)}
+.won{color:var(--cir);font-weight:700}
+
+/* ---------- Teaser ---------- */
+.teaser{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:22px;padding:30px 0 40px;position:relative}
+.floaters{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.floaters svg{position:absolute;opacity:.12;animation:float 14s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-30px) rotate(25deg)}}
+.cd{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%;max-width:520px}
+.cd > div{border:1px solid var(--line);border-radius:16px;padding:16px 4px 12px;background:var(--panel)}
+.cd b{display:block;font-family:var(--mono);font-weight:500;font-size:clamp(34px,11vw,58px);line-height:1;color:var(--gold2);font-variant-numeric:tabular-nums}
+.cd span{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut);font-weight:700}
+.cd-date{font-family:var(--serif);font-size:20px;font-style:italic}
+.cd-date small{display:block;font-family:var(--sans);font-style:normal;font-size:12px;color:var(--mut);letter-spacing:.08em;margin-top:4px}
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:520px;margin-top:6px}
+.feat{border-top:1px solid var(--line);padding-top:12px;font-size:13px;color:var(--mut)}
+.feat b{display:block;font-family:var(--serif);font-size:24px;color:var(--txt)}
+.teaser-grid{width:120px;margin:4px auto 0;opacity:.9}
+.live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red2);margin-right:8px;animation:blink 1.4s steps(2,start) infinite;vertical-align:1px}
+
+/* ---------- Mode de jeu ---------- */
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.seg button{border:1.5px solid var(--line2);border-radius:14px;padding:14px 12px;text-align:left;background:rgba(255,255,255,.03);display:flex;flex-direction:column;gap:5px;transition:all .2s}
+.seg button b{font-size:15px}
+.seg button span{font-size:12.5px;color:var(--mut);line-height:1.35}
+.seg button[aria-pressed="true"]{border-color:var(--gold);background:rgba(214,172,87,.1)}
+.seg button[aria-pressed="true"] b{color:var(--gold2)}
+
+/* ---------- Avatars & photos ---------- */
+.ava{width:36px;height:36px;border-radius:50%;flex:none;overflow:hidden;display:grid;place-items:center;font-weight:800;font-size:14px;color:#fff;background:var(--ag,#3a3335);border:1.5px solid rgba(255,255,255,.16)}
+.ava img{width:100%;height:100%;object-fit:cover;display:block}
+.ava.sm{width:22px;height:22px;font-size:10px;border-width:1px}
+.ava.xl{width:104px;height:104px;font-size:38px;border:2px solid var(--gold);box-shadow:0 0 0 6px rgba(214,172,87,.12);margin:8px 0}
+.ava-btn{position:relative;width:48px;height:48px;flex:none;cursor:pointer;display:block}
+.ava-btn .ava{width:48px;height:48px;border:1.5px dashed var(--line);background:rgba(0,0,0,.35);color:var(--mut)}
+.ava-btn .ava.has{border:1.5px solid var(--gold)}
+.ava-btn .cam{position:absolute;right:-4px;bottom:-4px;width:20px;height:20px;border-radius:50%;background:var(--gold);color:#1b1206;display:grid;place-items:center;border:2px solid var(--bg)}
+.ava-btn .cam .ic{width:11px;height:11px}
+.ava-btn input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.hint{font-size:12.5px;color:var(--dim);margin-top:8px;text-align:center}
+
+/* ---------- Écrans récap — style plateau TV ---------- */
+.tv{position:relative;border-radius:18px;overflow:hidden;padding:14px 10px;color:#1c1c1e;background:var(--concrete);
+  box-shadow:0 24px 50px -22px rgba(0,0,0,.9), inset 0 0 70px rgba(0,0,0,.28)}
+.board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;background:#2142c2;padding:4px;border-radius:3px;box-shadow:0 0 0 1px rgba(0,0,0,.35), 0 12px 26px -12px rgba(0,0,0,.55)}
+.bh{background:var(--tv);display:flex;align-items:center;justify-content:center;height:clamp(58px,17vw,82px);position:relative;box-shadow:inset 0 -3px 0 rgba(0,0,0,.15)}
+.bh svg{width:46%;max-width:52px;height:auto;filter:drop-shadow(0 1px 1px rgba(0,0,0,.25))}
+.bh .lot{position:absolute;right:5px;top:5px;font-family:var(--mono);font-size:12px;font-weight:500;color:#fff;background:rgba(0,0,0,.3);border-radius:6px;padding:1px 6px}
+.bc{background:var(--concrete);min-height:150px;padding:12px 2px 14px;display:flex;flex-wrap:wrap;justify-content:center;align-content:flex-start;gap:12px 0}
+.bc.empty{align-content:center}
+.bc .none{margin:auto;color:rgba(0,0,0,.32);font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+.pt{display:flex;flex-direction:column;align-items:center;width:50%;min-width:0;padding:0 2px;animation:pop .45s cubic-bezier(.2,1.4,.4,1) both}
+.dia{--d:clamp(28px,8vw,54px);width:var(--d);height:var(--d);margin-top:calc(var(--d) * .2);transform:rotate(45deg);position:relative;overflow:hidden;background:var(--ag,#666);border:2px solid #fff;box-shadow:0 0 0 2.5px #6b3fb6, 0 6px 12px rgba(0,0,0,.35)}
+.dia > *{position:absolute;left:50%;top:50%;width:142%;height:142%;transform:translate(-50%,-50%) rotate(-45deg);object-fit:cover}
+.dia .ini{display:grid;place-items:center;color:#fff;font-weight:800;font-size:calc(var(--d) * .42)}
+.plq{margin-top:calc(clamp(28px,8vw,54px) * .1);max-width:100%;position:relative;z-index:1;background:linear-gradient(180deg,#53308f,#2a1452);color:#fff;font-weight:800;font-size:clamp(9.5px,2.6vw,13px);line-height:1.12;padding:4px 7px;text-align:center;clip-path:polygon(5px 0,calc(100% - 5px) 0,100% 50%,calc(100% - 5px) 100%,5px 100%,0 50%);overflow-wrap:anywhere}
+.plq span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:30px 12px 26px}
+.tcol{display:flex;flex-direction:column;align-items:center;gap:16px;min-width:0}
+.tile{width:min(100%,110px);aspect-ratio:1;background:var(--tv);display:grid;place-items:center;border-radius:3px;box-shadow:inset 0 -5px 0 rgba(0,0,0,.18), inset 0 2px 0 rgba(255,255,255,.2), 4px 6px 0 rgba(0,0,0,.16), 0 16px 26px -12px rgba(0,0,0,.55);animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
+.tile svg{width:66%;height:66%;filter:drop-shadow(0 1px 1px rgba(0,0,0,.25))}
+.tbid{font-family:var(--serif);font-weight:800;font-size:clamp(28px,9vw,44px);line-height:1;color:#1b1b1d;animation:rise .5s ease both;white-space:nowrap}
+.tbid small{font-size:.5em;font-weight:700;margin-left:3px}
+.tbid.none{color:rgba(0,0,0,.3)}
+.secret{font-family:var(--serif);font-weight:700;font-size:clamp(15px,4.6vw,24px);letter-spacing:.05em;color:#f6f0e8;background:linear-gradient(180deg,#52318e,#2b1554);padding:7px clamp(8px,2.6vw,16px);border-radius:3px;box-shadow:inset 0 1px 0 rgba(255,255,255,.28), inset 0 -2px 0 rgba(0,0,0,.3), 0 0 0 1.5px #3d2270, 0 6px 14px -4px rgba(0,0,0,.5);animation:rise .5s ease both}
+.tlot{font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(0,0,0,.45)}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+@keyframes rise{from{transform:translateY(10px);opacity:0}}
+.no-anim .main,.no-anim .pt,.no-anim .tile,.no-anim .tbid,.no-anim .secret{animation:none !important}
+
+/* ---------- Croupier ---------- */
+.dprog{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--mut)}
+.dprog b{color:var(--gold2);font-family:var(--mono);font-size:16px}
+.drows{display:flex;flex-direction:column;gap:8px}
+.drow{display:flex;align-items:center;gap:10px;border:1px solid var(--line2);border-radius:14px;padding:10px 10px 10px 12px;background:var(--panel);transition:border-color .2s}
+.drow.ok{border-color:rgba(214,172,87,.4)}
+.drow .nm{flex:1;min-width:0;font-weight:700;overflow:hidden}
+.drow .nm > span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drow .nm small{display:flex;gap:5px;align-items:center;font-weight:500;font-size:12px;color:var(--mut);white-space:nowrap}
+.drow .nm small b{color:var(--txt);font-family:var(--mono)}
+.dpick{display:flex;gap:6px}
+.dpick button{width:46px;height:46px;border-radius:12px;border:1.5px solid var(--line2);display:grid;place-items:center;background:rgba(255,255,255,.03);transition:all .15s}
+.dpick button svg{width:22px;height:22px;color:var(--c);opacity:.4}
+.dpick button[aria-pressed="true"]{border-color:var(--c);background:color-mix(in srgb,var(--c) 22%,transparent)}
+.dpick button[aria-pressed="true"] svg{opacity:1}
+.dstep{display:flex;align-items:center;gap:4px}
+.dstep button{width:38px;height:46px;border-radius:10px;border:1px solid var(--line2);display:grid;place-items:center;color:var(--gold2);background:rgba(255,255,255,.03)}
+.dstep input{width:58px;height:46px;border-radius:10px;border:1px solid var(--line);background:rgba(0,0,0,.4);text-align:center;font-family:var(--mono);font-size:20px;color:var(--gold2);outline:none}
+.dstep input:focus{border-color:var(--gold)}
+.dstep input.bad{border-color:var(--red2);color:#ff8a9b}
+.dcards{display:flex;flex-direction:column;gap:10px}
+.dcard{border:1px solid var(--line2);border-radius:16px;padding:12px 14px;background:var(--panel);display:flex;flex-direction:column;gap:10px}
+.dcard-h{display:flex;align-items:center;gap:10px}
+.dcard-h .nm{flex:1;min-width:0;font-weight:800;word-break:break-word}
+.dcard-r{font-size:14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.dcard-b{display:flex;align-items:center;gap:14px}
+.dcard-b .mini{width:84px;flex:none}
+
+@media (min-width:600px){
+  .pcards{grid-template-columns:repeat(3,1fr)}
+  .plist{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:380px){
+  #app{padding-left:14px;padding-right:14px}
+  .scard{padding:12px 6px}
+  .timer-ctrls{grid-template-columns:1fr 1fr}
+  .inv{grid-template-columns:1fr}
+  .seg{grid-template-columns:1fr}
+  .dpick button{width:40px;height:42px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+(() => {
+'use strict';
+
+/* =========================================================
+   CONFIGURATION
+   ========================================================= */
+// Ouverture : samedi 12 décembre 2026, 17h00 heure de Paris (UTC+1 en hiver)
+const LAUNCH_AT   = Date.parse('2026-12-12T17:00:00+01:00');
+const STORE_KEY   = 'auctionBingo.v2';
+const ROUNDS      = 7;
+const START_WONS  = 30;
+const MIN_P = 3, MAX_P = 8;
+const SHAPES = ['tri', 'cir', 'sta'];
+const SH = {
+  tri: { name: 'Triangle', plural: 'Triangles' },
+  cir: { name: 'Cercle',   plural: 'Cercles'   },
+  sta: { name: 'Étoile',   plural: 'Étoiles'   },
+};
+const LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+// Ajoutez ?test à l'URL pour passer l'écran d'attente avant l'ouverture
+const TEST_MODE = new URLSearchParams(location.search).has('test');
+
+const $app = document.getElementById('app');
+
+/* =========================================================
+   ÉTAT
+   ========================================================= */
+function freshState(names, prev, photos) {
+  const keep = names && names.length >= MIN_P;
+  const n = keep ? names.slice(0, MAX_P) : ['', '', ''];
+  return {
+    v: 3,
+    phase: 'setup',
+    setup: {
+      names: n,
+      photos: n.map((_, i) => (keep && photos && photos[i]) || ''),
+      mode: prev && prev.mode ? prev.mode : 'pass',
+      timerOn: prev ? prev.timerOn : true,
+      minutes: prev ? prev.minutes : 3,
+    },
+    sound: true,
+    draft: {},
+    players: [],
+    round: 0,
+    queue: [], turn: 0, sub: 'buffer', revealed: false,
+    current: null,
+    history: [],
+    timer: { duration: 180000, remaining: 180000, running: false, endAt: 0, done: false },
+    peek: null,
+    newlyEliminated: [],
+    endReason: null,
+  };
+}
+function load() {
+  try {
+    const s = JSON.parse(localStorage.getItem(STORE_KEY));
+    if (!s || (s.v !== 2 && s.v !== 3)) return null;
+    if (s.v === 2) {   // migration de l'ancienne version
+      s.v = 3; s.setup.mode = 'pass'; s.draft = {};
+      s.setup.photos = s.setup.names.map(() => '');
+    }
+    // Sécurité : après un rechargement, on ne réaffiche jamais directement un écran privé
+    if (s.sub === 'private') s.sub = 'buffer';
+    if (s.peek && s.peek.sub === 'private') s.peek.sub = 'buffer';
+    return s;
+  } catch (e) { return null; }
+}
+function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); return true; } catch (e) { return false; } }
+
+let state = load() || freshState();
+const ui = { voteChoice: null, bid: 1, history: false, modal: null, setupError: '', lastKey: '' };
+
+const byId = id => state.players.find(p => p.id === id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+const pad = n => String(n).padStart(2, '0');
+const plural = (n, a, b) => n > 1 ? b : a;
+const isDealer = () => state.setup.mode === 'dealer';
+const DEALER = '__dealer';
+
+/* =========================================================
+   AVATARS & PHOTOS
+   ========================================================= */
+function hue(s) { let h = 7; for (const c of String(s)) h = (h * 31 + c.codePointAt(0)) % 360; return h; }
+function initials(n) {
+  const w = String(n).trim().split(/\s+/).filter(Boolean);
+  if (!w.length) return '?';
+  return (w.length > 1 ? [...w[0]][0] + [...w[1]][0] : [...w[0]][0]).toUpperCase();
+}
+const agStyle = p => `--ag:hsl(${hue(p.name)} 40% 36%)`;
+function ava(p, cls) {
+  return `<span class="ava ${cls || ''}" style="${agStyle(p)}">${p.photo ? `<img src="${esc(p.photo)}" alt="">` : esc(initials(p.name))}</span>`;
+}
+function diamond(p, i) {
+  return `<div class="pt" style="animation-delay:${0.15 + i * 0.09}s">
+    <div class="dia" style="${agStyle(p)}">${p.photo ? `<img src="${esc(p.photo)}" alt="">` : `<span class="ini">${esc(initials(p.name))}</span>`}</div>
+    <div class="plq"><span>${esc(p.name)}</span></div>
+  </div>`;
+}
+// Recadrage carré + compression : ~15 Ko par photo, pour tenir dans le localStorage
+function readPhoto(file) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const S = 220, w = img.naturalWidth, h = img.naturalHeight, k = Math.min(w, h);
+      const c = document.createElement('canvas'); c.width = c.height = S;
+      const g = c.getContext('2d');
+      g.fillStyle = '#777'; g.fillRect(0, 0, S, S);
+      g.drawImage(img, (w - k) / 2, (h - k) * 0.3, k, k, 0, 0, S, S);   // léger décalage vers le haut (visages)
+      URL.revokeObjectURL(url);
+      resolve(c.toDataURL('image/jpeg', 0.82));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('image')); };
+    img.src = url;
+  });
+}
+
+/* =========================================================
+   ICÔNES & FORMES
+   ========================================================= */
+function shapeSVG(s) {
+  const body = {
+    tri: '<path d="M12 2.8 22.4 20.6H1.6Z" fill="currentColor"/>',
+    cir: '<circle cx="12" cy="12" r="9.6" fill="currentColor"/>',
+    sta: '<path d="M12 1.6l3.1 6.6 7.2.8-5.4 4.9 1.5 7.1L12 17.4l-6.4 3.6 1.5-7.1L1.7 9l7.2-.8z" fill="currentColor"/>',
+  }[s];
+  return `<svg class="shp" viewBox="0 0 24 24" aria-label="${SH[s].name}" role="img">${body}</svg>`;
+}
+const inlineShape = s => `<span class="inline-shape s-${s}">${shapeSVG(s)}</span>`;
+// Forme blanche « au trait », comme sur les écrans de l'émission
+function outlineSVG(s) {
+  const body = {
+    tri: '<path d="M12 4.2 21 19.6H3Z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="miter"/>',
+    cir: '<circle cx="12" cy="12" r="8.4" fill="none" stroke="#fff" stroke-width="2.3"/>',
+    sta: '<path d="M12 2.9l2.7 5.7 6.2.7-4.6 4.2 1.3 6.1L12 16.5l-5.6 3.1 1.3-6.1L3.1 9.3l6.2-.7z" fill="none" stroke="#fff" stroke-width="1.7" stroke-linejoin="miter"/>',
+  }[s];
+  return `<svg viewBox="0 0 24 24" aria-label="${SH[s].name}" role="img">${body}</svg>`;
+}
+const ICONS = {
+  sound: '<path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 9.5a3.5 3.5 0 0 1 0 5M19 7a7 7 0 0 1 0 10"/>',
+  mute:  '<path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9.5l5 5M22 9.5l-5 5"/>',
+  reset: '<path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1L3.5 8.5"/><path d="M3.5 3.5v5h5"/>',
+  play:  '<path d="M7 4.5l12 7.5-12 7.5z" fill="currentColor" stroke="none"/>',
+  pause: '<path d="M7 4.5h3.2v15H7zM13.8 4.5H17v15h-3.2z" fill="currentColor" stroke="none"/>',
+  eye:   '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  lock:  '<rect x="4.5" y="10.5" width="15" height="10" rx="2.2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/>',
+  phone: '<rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18h3"/><path d="M2 9l2 2-2 2M22 9l-2 2 2 2"/>',
+  plus:  '<path d="M12 5v14M5 12h14"/>',
+  minus: '<path d="M5 12h14"/>',
+  x:     '<path d="M6 6l12 12M18 6 6 18"/>',
+  arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  skip:  '<path d="M5 5l9 7-9 7z"/><path d="M18 5v14"/>',
+  camera:'<path d="M3 8.5a2 2 0 0 1 2-2h2.2l1.6-2h6.4l1.6 2H19a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3.6"/>',
+};
+const icon = n => `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]}</svg>`;
+
+/* =========================================================
+   GRILLES & SCORE
+   ========================================================= */
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+function makeGrids(n) {
+  const seen = new Set(), out = [];
+  while (out.length < n) {
+    const g = shuffle(['tri','tri','tri','cir','cir','cir','sta','sta','sta']);
+    const k = g.join();
+    if (!seen.has(k)) { seen.add(k); out.push(g); }
+  }
+  return out;
+}
+function combos(arr, k) {
+  if (k <= 0) return [[]];
+  if (k >= arr.length) return [arr.slice()];
+  const res = [];
+  const rec = (start, cur) => {
+    if (cur.length === k) { res.push(cur.slice()); return; }
+    for (let i = start; i < arr.length; i++) { cur.push(arr[i]); rec(i + 1, cur); cur.pop(); }
+  };
+  rec(0, []);
+  return res;
+}
+// Placement automatique optimal : parmi les cases de chaque forme, on coche celles
+// qui maximisent le nombre de bingos (utile quand on possède 1 ou 2 exemplaires d'une forme).
+function evaluate(p) {
+  const idx = { tri: [], cir: [], sta: [] };
+  p.grid.forEach((s, i) => idx[s].push(i));
+  const opts = SHAPES.map(s => combos(idx[s], Math.min(p.acquired[s], 3)));
+  let best = null;
+  for (const a of opts[0]) for (const b of opts[1]) for (const c of opts[2]) {
+    const on = new Array(9).fill(false);
+    a.concat(b, c).forEach(i => { on[i] = true; });
+    const lines = LINES.filter(l => l.every(i => on[i]));
+    if (!best || lines.length > best.bingos) best = { on, lines, bingos: lines.length };
+  }
+  best.cells = best.on.filter(Boolean).length;
+  best.surplus = SHAPES.reduce((t, s) => t + Math.max(0, p.acquired[s] - 3), 0);
+  return best;
+}
+function cmpRows(a, b) {
+  return (a.p.eliminated - b.p.eliminated)
+      || (b.ev.bingos - a.ev.bingos)
+      || (b.ev.cells - a.ev.cells)
+      || (b.p.wons - a.p.wons);
+}
+function ranking() {
+  const rows = state.players.map(p => ({ p, ev: evaluate(p) })).sort(cmpRows);
+  rows.forEach((r, i) => { r.rank = (i > 0 && cmpRows(rows[i - 1], r) === 0) ? rows[i - 1].rank : i + 1; });
+  return rows;
+}
+
+/* =========================================================
+   CHRONOMÈTRE
+   ========================================================= */
+function tRem() { const t = state.timer; return t.running ? Math.max(0, t.endAt - Date.now()) : Math.max(0, t.remaining); }
+function tReset(autostart) {
+  const t = state.timer;
+  t.duration = state.setup.minutes * 60000;
+  t.remaining = t.duration; t.done = false; t.running = false;
+  if (autostart && state.setup.timerOn) { t.running = true; t.endAt = Date.now() + t.duration; }
+}
+function tToggle() {
+  const t = state.timer;
+  if (t.running) { t.remaining = tRem(); t.running = false; }
+  else { if (t.remaining <= 0) return; t.endAt = Date.now() + t.remaining; t.running = true; t.done = false; }
+  save();
+}
+function tAdd(ms) {
+  const t = state.timer;
+  if (t.running) t.endAt += ms; else t.remaining = Math.max(0, t.remaining) + ms;
+  t.done = false; save();
+}
+function tStop() { const t = state.timer; t.remaining = tRem(); t.running = false; }
+const fmtTime = sec => `${pad(Math.floor(sec / 60))}:${pad(sec % 60)}`;
+
+function paintTimer() {
+  const el = document.querySelector('[data-timer]');
+  if (!el) return;
+  const t = state.timer, rem = tRem(), sec = Math.ceil(rem / 1000);
+  el.querySelector('[data-timer-digits]').textContent = fmtTime(sec);
+  el.classList.toggle('warn', sec <= 30 && sec > 10);
+  el.classList.toggle('crit', sec <= 10 && sec > 0);
+  el.classList.toggle('done', sec === 0);
+  el.classList.toggle('running', t.running);
+  el.querySelector('[data-timer-bar]').style.transform = `scaleX(${Math.min(1, t.duration ? rem / t.duration : 0)})`;
+  el.querySelector('[data-timer-status]').textContent =
+    sec === 0 ? 'Temps écoulé' : t.running ? 'En cours' : (rem < t.duration ? 'En pause' : 'Prêt');
+  const pb = el.querySelector('[data-timer-play]');
+  pb.innerHTML = t.running ? icon('pause') + 'Pause' : icon('play') + (rem > 0 && rem < t.duration ? 'Reprendre' : 'Démarrer');
+  pb.disabled = !t.running && rem <= 0;
+}
+
+/* =========================================================
+   SON (Web Audio API, aucun fichier externe)
+   ========================================================= */
+let actx = null;
+function unlockAudio() {
+  if (!actx) { try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return; } }
+  if (actx.state === 'suspended') actx.resume();
+}
+function beep() {
+  if (!state.sound || !actx) return;
+  const now = actx.currentTime;
+  [[0, 784], [0.26, 784], [0.52, 1046.5]].forEach(([d, f]) => {
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.type = 'sine'; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, now + d);
+    g.gain.exponentialRampToValueAtTime(0.18, now + d + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + d + 0.24);
+    o.connect(g).connect(actx.destination);
+    o.start(now + d); o.stop(now + d + 0.26);
+  });
+}
+document.addEventListener('pointerdown', unlockAudio, { passive: true });
+
+/* =========================================================
+   LOGIQUE DE JEU
+   ========================================================= */
+function commit() { save(); render(); }
+
+// Ordre de passage : rotation à chaque manche pour varier le premier joueur
+function activeIds() {
+  const ids = state.players.filter(p => !p.eliminated).map(p => p.id);
+  if (!ids.length) return ids;
+  const r = (state.round - 1) % ids.length;
+  return ids.slice(r).concat(ids.slice(0, r));
+}
+
+function startGame() {
+  const rows = state.setup.names.map((n, i) => ({ n: n.trim(), ph: state.setup.photos[i] || '' })).filter(r => r.n);
+  const names = rows.map(r => r.n);
+  if (names.length < MIN_P) { ui.setupError = `Il faut au moins ${MIN_P} joueurs.`; return render(); }
+  if (names.length > MAX_P) { ui.setupError = `${MAX_P} joueurs maximum.`; return render(); }
+  if (new Set(names.map(n => n.toLowerCase())).size !== names.length) { ui.setupError = 'Deux joueurs portent le même prénom.'; return render(); }
+  ui.setupError = '';
+  state.setup.names = names.slice();
+  state.setup.photos = rows.map(r => r.ph);
+  const grids = makeGrids(names.length);
+  state.players = names.map((n, i) => ({
+    id: 'p' + i, name: n, photo: rows[i].ph, grid: grids[i], wons: START_WONS,
+    acquired: { tri: 0, cir: 0, sta: 0 }, eliminated: false, elimRound: null,
+  }));
+  state.history = []; state.round = 1; state.endReason = null;
+  startRound();
+}
+
+function startRound() {
+  state.newlyEliminated = [];
+  // Règle d'élimination : un joueur à 0 won ne peut plus miser
+  state.players.forEach(p => {
+    if (!p.eliminated && p.wons <= 0) { p.eliminated = true; p.elimRound = state.round; state.newlyEliminated.push(p.id); }
+  });
+  state.current = { votes: {}, bids: {} };
+  state.peek = null; state.turn = 0; state.sub = 'buffer'; state.revealed = false;
+  if (!activeIds().length) {
+    state.endReason = 'Plus aucun joueur ne peut miser : la partie s’arrête.';
+    state.phase = 'end';
+    return commit();
+  }
+  state.phase = 'discuss';
+  tReset(false);
+  commit();
+}
+
+function beginVote() { tStop(); state.phase = 'vote'; state.queue = activeIds(); state.turn = 0; state.sub = 'buffer'; state.draft = {}; commit(); }
+
+/* ----- Mode croupier : saisie groupée ----- */
+function dealerConfirmVotes() {
+  if (!state.queue.every(id => state.draft[id])) return;
+  state.queue.forEach(id => { state.current.votes[id] = state.draft[id]; });
+  state.draft = {}; state.sub = 'buffer';
+  state.phase = 'reveal'; state.revealed = false;
+  commit();
+}
+function bidValid(id) {
+  const v = state.draft[id], p = byId(id);
+  return Number.isInteger(v) && v >= 1 && v <= p.wons;
+}
+function dealerSealBids() {
+  if (!state.queue.every(bidValid)) return;
+  state.queue.forEach(id => {
+    const p = byId(id), a = state.draft[id];
+    p.wons -= a;                    // dépensé quoi qu'il arrive
+    state.current.bids[id] = a;
+  });
+  state.draft = {}; state.sub = 'buffer';
+  resolveRound();
+  commit();
+}
+
+function confirmVote() {
+  if (!ui.voteChoice) return;
+  state.current.votes[state.queue[state.turn]] = ui.voteChoice;
+  ui.voteChoice = null;
+  state.turn++; state.sub = 'buffer';
+  if (state.turn >= state.queue.length) { state.phase = 'reveal'; state.revealed = false; }
+  commit();
+}
+
+function beginBid() { tStop(); state.phase = 'bid'; state.queue = activeIds(); state.turn = 0; state.sub = 'buffer'; state.draft = {}; commit(); }
+
+function sealBid(amount) {
+  const p = byId(state.queue[state.turn]);
+  amount = Math.max(1, Math.min(p.wons, Math.floor(amount)));
+  p.wons -= amount;                 // dépensé quoi qu'il arrive
+  state.current.bids[p.id] = amount;
+  state.turn++; state.sub = 'buffer';
+  if (state.turn >= state.queue.length) resolveRound();
+  commit();
+}
+
+function resolveRound() {
+  const { votes, bids } = state.current;
+  const results = {};
+  SHAPES.forEach(s => {
+    const voters = Object.keys(votes).filter(id => votes[id] === s);
+    if (!voters.length) { results[s] = { voters: 0, maxBid: null, winners: [], qty: 0 }; return; }
+    const maxBid = Math.max(...voters.map(id => bids[id] || 0));
+    const winners = voters.filter(id => (bids[id] || 0) === maxBid);
+    const qty = Math.floor(voters.length / winners.length);
+    winners.forEach(id => { byId(id).acquired[s] += qty; });
+    results[s] = { voters: voters.length, maxBid, winners, qty };
+  });
+  // Masquage : la (ou les) mise(s) gagnante(s) la plus élevée de la manche
+  const played = SHAPES.filter(s => results[s].voters > 0);
+  const top = Math.max(...played.map(s => results[s].maxBid));
+  const masked = played.filter(s => results[s].maxBid === top);
+  state.history.push({ round: state.round, votes: { ...votes }, bids: { ...bids }, results, masked });
+  state.phase = 'result'; state.revealed = false; state.peek = null;
+}
+
+function nextRound() {
+  if (state.round >= ROUNDS) { state.phase = 'end'; return commit(); }
+  state.round++;
+  startRound();
+}
+
+/* =========================================================
+   VUES — éléments communs
+   ========================================================= */
+function header() {
+  const inGame = state.phase !== 'setup';
+  return `<header class="top">
+    <div class="brand"><span class="brand-mark">${SHAPES.map(s => `<span class="s-${s}">${shapeSVG(s)}</span>`).join('')}</span>Auction Bingo</div>
+    ${inGame && state.phase !== 'end' ? `<div class="round-pill">Manche <b>${state.round}</b>/${ROUNDS}</div>` : ''}
+    <div class="top-actions">
+      <button class="icon-btn" data-act="toggleSound" aria-label="${state.sound ? 'Couper le son' : 'Activer le son'}" title="${state.sound ? 'Couper le son' : 'Activer le son'}">${icon(state.sound ? 'sound' : 'mute')}</button>
+      ${inGame ? `<button class="icon-btn" data-act="askReset" aria-label="Nouvelle partie" title="Nouvelle partie">${icon('reset')}</button>` : ''}
+    </div>
+  </header>`;
+}
+
+function timerBlock() {
+  if (!state.setup.timerOn) return `<div class="timer-off">Chronomètre désactivé</div>`;
+  return `<div class="timer" data-timer>
+    <div class="timer-digits" data-timer-digits>00:00</div>
+    <div class="timer-status" data-timer-status></div>
+    <div class="timer-bar"><i data-timer-bar></i></div>
+    <div class="timer-ctrls">
+      <button class="play" data-act="tPlay" data-timer-play></button>
+      <button data-act="tReset" aria-label="Réinitialiser le chronomètre">${icon('reset')}</button>
+      <button data-act="tAdd" data-ms="30000">+30 s</button>
+      <button data-act="tAdd" data-ms="60000">+1 min</button>
+    </div>
+  </div>`;
+}
+
+function privateFlag(p) {
+  return `<div class="private-flag">${icon('lock')}<b>Écran privé</b><span class="who">${esc(p.name)}</span></div>`;
+}
+
+function gridHTML(p, ev, small) {
+  ev = ev || evaluate(p);
+  const inLine = new Set(ev.lines.flat());
+  return `<div class="bgrid ${small ? 'sm' : ''}">${p.grid.map((s, i) =>
+    `<div class="cell s-${s} ${ev.on[i] ? 'on' : ''} ${inLine.has(i) ? 'line' : ''}">${shapeSVG(s)}</div>`).join('')}</div>`;
+}
+function acqHTML(p) {
+  return `<div class="acqs">${SHAPES.map(s => {
+    const a = p.acquired[s];
+    return `<div class="acq s-${s}">${shapeSVG(s)}<b>${Math.min(a, 3)}/3</b>${a > 3 ? `<span class="surplus">+${a - 3}</span>` : ''}</div>`;
+  }).join('')}</div>`;
+}
+function inventory(p) {
+  const ev = evaluate(p);
+  return `<div class="card inv">
+    ${gridHTML(p, ev)}
+    <div class="inv-side">
+      <div><div class="eyebrow" style="margin-bottom:4px">Solde</div><div class="wallet"><b>${p.wons}</b><span>${plural(p.wons, 'won', 'wons')}</span></div></div>
+      <div><div class="eyebrow" style="margin-bottom:6px">Formes acquises</div>${acqHTML(p)}</div>
+      <div class="score-line"><b>${ev.bingos}</b> ${plural(ev.bingos, 'bingo', 'bingos')} · <b>${ev.cells}</b>/9 cases</div>
+    </div>
+  </div>`;
+}
+
+function bufferView(label) {
+  const p = byId(state.queue[state.turn]);
+  return `<div class="buffer">
+    <div class="eyebrow">${label} · ${state.turn + 1}/${state.queue.length}</div>
+    ${p.photo ? ava(p, 'xl') : `<div class="pass-icon">${icon('phone')}</div>`}
+    <p class="pass-txt">Passez l'appareil à</p>
+    <div class="pass-name">${esc(p.name)}</div>
+    <p class="mut" style="font-size:14px">Les autres joueurs détournent le regard.</p>
+    <button class="btn btn-primary btn-big" data-act="showPrivate">${icon('eye')}Je suis ${esc(p.name)}, afficher mon écran</button>
+    <div class="dots">${state.queue.map((_, i) => `<i class="${i < state.turn ? 'done' : i === state.turn ? 'now' : ''}"></i>`).join('')}</div>
+  </div>`;
+}
+
+/* ----- Mode croupier ----- */
+function dealerFlag() {
+  return `<div class="private-flag">${icon('lock')}<b>Écran croupier</b><span class="who">Confidentiel</span></div>`;
+}
+function dealerBuffer(label, help, act, cancel) {
+  return `<div class="buffer">
+    <div class="eyebrow">${label} · Manche ${state.round}</div>
+    <div class="pass-icon">${icon('lock')}</div>
+    <p class="pass-txt">Écran réservé au</p>
+    <div class="pass-name">Croupier</div>
+    <p class="mut" style="font-size:14px;max-width:34ch">${help}</p>
+    <button class="btn btn-primary btn-big" data-act="${act || 'showPrivate'}">${icon('eye')}Je suis le croupier, afficher l'écran</button>
+    ${cancel ? `<button class="btn btn-ghost" style="margin-top:0" data-act="${cancel}">Annuler</button>` : ''}
+  </div>`;
+}
+function dealerVoteView() {
+  const ids = state.queue, d = state.draft;
+  const n = ids.filter(id => d[id]).length, all = n === ids.length;
+  return `${dealerFlag()}
+    <div><div class="eyebrow">Manche ${state.round} · Votes secrets</div><h2>Saisie des votes</h2></div>
+    <div class="dprog"><span>Forme choisie par chaque joueur</span><span><b>${n}</b>/${ids.length}</span></div>
+    <div class="drows">${ids.map(id => {
+      const p = byId(id);
+      return `<div class="drow ${d[id] ? 'ok' : ''}">${ava(p)}
+        <div class="nm"><span>${esc(p.name)}</span><small>solde <b>${p.wons}</b></small></div>
+        <div class="dpick">${SHAPES.map(s => `<button class="s-${s}" aria-pressed="${d[id] === s}" aria-label="${esc(p.name)} : ${SH[s].name}" data-act="dVote" data-pid="${id}" data-s="${s}">${shapeSVG(s)}</button>`).join('')}</div>
+      </div>`;
+    }).join('')}</div>
+    <button class="btn btn-primary btn-big btn-block" data-act="dConfirmVotes" ${all ? '' : 'disabled'}>${all ? `${icon('lock')}Valider les votes` : `Encore ${ids.length - n} ${plural(ids.length - n, 'vote', 'votes')} à saisir`}</button>`;
+}
+function dealerBidView() {
+  const ids = state.queue, d = state.draft, votes = state.current.votes;
+  const lot = s => Object.values(votes).filter(v => v === s).length;
+  return `${dealerFlag()}
+    <div><div class="eyebrow">Manche ${state.round} · Enchères secrètes</div><h2>Saisie des mises</h2></div>
+    <div class="dprog"><span>Mise de chaque joueur (min. 1 won)</span><span data-dcount></span></div>
+    <div class="drows">${ids.map(id => {
+      const p = byId(id), s = votes[id], v = d[id];
+      return `<div class="drow" data-drow="${id}">${ava(p)}
+        <div class="nm"><span>${esc(p.name)}</span><small>${inlineShape(s)} lot ×${lot(s)} · solde <b>${p.wons}</b></small></div>
+        <div class="dstep">
+          <button data-act="dBidAdj" data-pid="${id}" data-n="-1" aria-label="Moins un">${icon('minus')}</button>
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="3" autocomplete="off" data-dbid="${id}" value="${v == null ? '' : v}" placeholder="–" aria-label="Mise de ${esc(p.name)}">
+          <button data-act="dBidAdj" data-pid="${id}" data-n="1" aria-label="Plus un">${icon('plus')}</button>
+        </div>
+      </div>`;
+    }).join('')}</div>
+    <p class="err" data-derr></p>
+    <button class="btn btn-primary btn-big btn-block" data-act="dConfirmBids" data-dsubmit>Valider les mises</button>`;
+}
+// Mise à jour légère (sans re-rendu) pendant la saisie au clavier
+function refreshDealerBids() {
+  const submit = document.querySelector('[data-dsubmit]');
+  if (!submit) return;
+  const ids = state.queue;
+  let ok = 0;
+  ids.forEach(id => {
+    const row = document.querySelector(`[data-drow="${id}"]`), good = bidValid(id);
+    if (good) ok++;
+    row.classList.toggle('ok', good);
+    row.querySelector('input').classList.toggle('bad', state.draft[id] != null && !good);
+  });
+  document.querySelector('[data-dcount]').innerHTML = `<b>${ok}</b>/${ids.length}`;
+  const left = ids.length - ok;
+  submit.disabled = left > 0;
+  submit.innerHTML = left ? `Encore ${left} ${plural(left, 'mise', 'mises')} à saisir` : `${icon('lock')}Valider les mises`;
+  const bad = ids.filter(id => state.draft[id] != null && !bidValid(id)).map(byId);
+  document.querySelector('[data-derr]').textContent = bad.map(p => `${p.name} : entre 1 et ${p.wons}`).join(' · ');
+}
+function dealerTableView() {
+  const h = state.history[state.history.length - 1];
+  return `${dealerFlag()}
+    <div><div class="eyebrow">Manche ${state.round} · Tableau du croupier</div><h2>Inventaires</h2>
+      <p class="mut" style="margin-top:6px">Gagnants de la manche et état de chaque joueur. Le croupier peut informer chacun en privé.</p></div>
+    <div class="dcards">${state.players.map(p => {
+      const s = h.votes[p.id], r = s && h.results[s], w = r && r.winners.includes(p.id), ev = evaluate(p);
+      return `<div class="dcard">
+        <div class="dcard-h">${ava(p)}<div class="nm">${esc(p.name)}${p.eliminated ? '<span class="tag">Éliminé·e</span>' : ''}</div>
+          <div class="wallet"><b style="font-size:22px">${p.wons}</b><span>${plural(p.wons, 'won', 'wons')}</span></div></div>
+        <div class="dcard-r">${s
+          ? `${inlineShape(s)} mise <b style="font-family:var(--mono)">${h.bids[p.id]}</b> → ${w
+              ? `<span class="won">remportée : +${r.qty} ${plural(r.qty, SH[s].name.toLowerCase(), SH[s].plural.toLowerCase())}${r.winners.length > 1 ? ' (partagé)' : ''}</span>`
+              : '<span class="dim">perdue</span>'}`
+          : '<span class="dim">N’a pas joué cette manche</span>'}</div>
+        <div class="dcard-b"><div class="mini">${gridHTML(p, ev, true)}</div>
+          <div style="display:flex;flex-direction:column;gap:8px">${acqHTML(p)}<div class="score-line"><b>${ev.bingos}</b> ${plural(ev.bingos, 'bingo', 'bingos')} · <b>${ev.cells}</b>/9</div></div></div>
+      </div>`;
+    }).join('')}</div>
+    <button class="btn btn-primary btn-big btn-block" data-act="peekClose">${icon('lock')}Masquer et revenir au bilan</button>`;
+}
+
+/* ----- Écrans récapitulatifs (style plateau TV) ----- */
+function boardHTML(votes) {
+  const order = state.players.map(p => p.id).filter(id => votes[id]);
+  return `<div class="tv"><div class="board">
+    ${SHAPES.map(s => `<div class="bh s-${s}">${outlineSVG(s)}<span class="lot" title="Lot à gagner">×${order.filter(id => votes[id] === s).length}</span></div>`).join('')}
+    ${SHAPES.map(s => {
+      const ps = order.filter(id => votes[id] === s).map(byId);
+      return `<div class="bc ${ps.length ? '' : 'empty'}">${ps.length ? ps.map(diamond).join('') : '<span class="none">Personne</span>'}</div>`;
+    }).join('')}
+  </div></div>`;
+}
+function tilesHTML(h) {
+  return `<div class="tv tiles">${SHAPES.map((s, i) => {
+    const r = h.results[s], d = `animation-delay:${0.45 + i * 0.18}s`;
+    const val = !r.voters ? `<div class="tbid none" style="${d}">—</div>`
+      : h.masked.includes(s) ? `<div class="secret" style="${d}">SECRET</div>`
+      : `<div class="tbid" style="${d}">${r.maxBid}<small>${plural(r.maxBid, 'won', 'wons')}</small></div>`;
+    return `<div class="tcol s-${s}"><div class="tile" style="animation-delay:${i * 0.12}s">${outlineSVG(s)}</div>${val}
+      <div class="tlot">${r.voters ? `lot ×${r.voters}` : 'aucun votant'}</div></div>`;
+  }).join('')}</div>`;
+}
+
+function sealedView(kind) {
+  const isVote = kind === 'vote';
+  return `<div class="sealed">
+    <div class="seal">${icon('lock')}</div>
+    <div class="eyebrow">Manche ${state.round}</div>
+    <h2>${isVote ? 'Tous les votes sont scellés' : 'Toutes les mises sont scellées'}</h2>
+    <p class="mut">Posez l'appareil au centre de la table, bien visible de tous.</p>
+    <button class="btn btn-red btn-big btn-block" style="max-width:420px;margin-top:10px" data-act="${isVote ? 'revealVotes' : 'revealResults'}">
+      ${isVote ? 'Révéler les votes' : 'Révéler les mises gagnantes'}${icon('arrow')}</button>
+  </div>`;
+}
+
+/* =========================================================
+   VUES — écran d'attente (compte à rebours)
+   ========================================================= */
+function teaserView() {
+  const floaters = [
+    ['tri', 8, 12, 70, 0], ['cir', 82, 18, 46, -3], ['sta', 14, 72, 54, -6],
+    ['sta', 78, 66, 84, -2], ['tri', 55, 88, 40, -8], ['cir', 40, 6, 30, -5],
+  ].map(([s, x, y, size, delay]) =>
+    `<span class="s-${s}"><svg viewBox="0 0 24 24" style="left:${x}%;top:${y}%;width:${size}px;height:${size}px;color:var(--c);animation-delay:${delay}s">${shapeSVG(s).replace(/^<svg[^>]*>|<\/svg>$/g, '')}</svg></span>`).join('');
+  const demo = { grid: ['sta','tri','cir','cir','sta','tri','tri','cir','sta'], acquired: { tri: 1, cir: 0, sta: 3 } };
+  return `<div class="floaters">${floaters}</div>
+  <div class="teaser">
+    <div class="eyebrow"><span class="live-dot"></span>Ouverture des enchères</div>
+    <h1 class="title">Auction<br><em>Bingo</em></h1>
+    <p class="lede" style="margin:0 auto">Le bingo aux enchères. Une grille secrète, 30 wons, et personne en qui avoir confiance.</p>
+    <div class="cd" role="timer" aria-live="off">
+      <div><b data-cd="d">--</b><span>Jours</span></div>
+      <div><b data-cd="h">--</b><span>Heures</span></div>
+      <div><b data-cd="m">--</b><span>Min</span></div>
+      <div><b data-cd="s">--</b><span>Sec</span></div>
+    </div>
+    <div class="cd-date">Samedi 12 décembre · 17h00<small>Heure de Paris</small></div>
+    <div class="teaser-grid">${gridHTML(demo, null, true)}</div>
+    <div class="feats">
+      <div class="feat"><b>7</b>manches</div>
+      <div class="feat"><b>3</b>formes à rafler</div>
+      <div class="feat"><b>1</b>seul appareil</div>
+    </div>
+  </div>`;
+}
+function updateCountdown() {
+  const s = Math.floor(Math.max(0, LAUNCH_AT - Date.now()) / 1000);
+  const vals = { d: Math.floor(s / 86400), h: Math.floor(s % 86400 / 3600), m: Math.floor(s % 3600 / 60), s: s % 60 };
+  for (const k in vals) { const el = document.querySelector(`[data-cd="${k}"]`); if (el) el.textContent = pad(vals[k]); }
+}
+const isTeaser = () => !TEST_MODE && Date.now() < LAUNCH_AT;
+
+/* =========================================================
+   VUES — phases
+   ========================================================= */
+function setupView() {
+  const s = state.setup;
+  return `<section class="hero">
+      <div class="eyebrow">Pass &amp; Play · Inspiré de The Devil's Plan</div>
+      <h1 class="title">Auction<br><em>Bingo</em></h1>
+      <p class="lede">Le bingo aux enchères. 7 manches, 30 wons, une grille 3×3 secrète.</p>
+    </section>
+    <div class="card">
+      <div class="card-h"><span>Mode de jeu</span></div>
+      <div class="seg">
+        <button aria-pressed="${s.mode === 'pass'}" data-act="setMode" data-m="pass"><b>Pass &amp; Play</b><span>Chaque joueur vote et mise en secret sur l'appareil, à tour de rôle.</span></button>
+        <button aria-pressed="${s.mode === 'dealer'}" data-act="setMode" data-m="dealer"><b>Croupier</b><span>Un maître du jeu (qui ne joue pas) saisit tous les votes et mises. Les joueurs ne voient que les récaps.</span></button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-h"><span>Joueurs</span><span class="mut">${s.names.length} / ${MAX_P}</span></div>
+      ${s.names.map((n, i) => `<div class="name-row">
+        <label class="ava-btn" aria-label="Photo du joueur ${i + 1}">
+          ${s.photos[i]
+            ? `<span class="ava has"><img src="${esc(s.photos[i])}" alt=""></span><span class="cam">${icon('camera')}</span>`
+            : `<span class="ava">${icon('camera')}</span>`}
+          <input type="file" accept="image/*" data-photo-i="${i}">
+        </label>
+        <input type="text" maxlength="16" placeholder="Prénom" autocomplete="off" autocapitalize="words" enterkeyhint="next" value="${esc(n)}" data-name-i="${i}" aria-label="Prénom du joueur ${i + 1}">
+        ${s.names.length > MIN_P ? `<button class="icon-btn" data-act="removePlayer" data-i="${i}" aria-label="Retirer">${icon('x')}</button>` : ''}
+      </div>`).join('')}
+      ${s.names.length < MAX_P ? `<button class="add-btn" data-act="addPlayer">${icon('plus')}Ajouter un joueur</button>` : ''}
+      <p class="hint">Touchez un avatar pour ajouter ou changer une photo (facultatif).</p>
+    </div>
+    <div class="card">
+      <div class="card-h"><span>Réglages</span></div>
+      <div class="setting">
+        <div class="lbl"><b>Chronomètre de discussion</b><span>Avant le vote et avant les enchères</span></div>
+        <button class="switch" role="switch" aria-checked="${s.timerOn}" data-act="toggleTimerOn" aria-label="Chronomètre"></button>
+      </div>
+      ${s.timerOn ? `<div class="setting" style="display:block">
+        <div style="display:flex;justify-content:space-between"><span class="mut" style="font-size:14px">Durée par phase</span><span class="range-val" data-minutes-label>${s.minutes} min</span></div>
+        <input class="range" type="range" min="1" max="10" step="1" value="${s.minutes}" data-minutes aria-label="Durée en minutes">
+      </div>` : ''}
+      <div class="setting">
+        <div class="lbl"><b>Signal sonore</b><span>Quand le temps est écoulé</span></div>
+        <button class="switch" role="switch" aria-checked="${state.sound}" data-act="toggleSound" aria-label="Son"></button>
+      </div>
+    </div>
+    <details class="rules">
+      <summary>Règles du jeu</summary>
+      <ol>
+        <li>En mode <b>Croupier</b>, chaque joueur glisse sa forme puis sa mise au croupier en secret (à l'oreille ou sur papier) ; seul le croupier voit les écrans de saisie.</li>
+        <li>Chaque joueur reçoit une <b>grille 3×3 secrète</b> : 3 ${inlineShape('tri')}, 3 ${inlineShape('cir')}, 3 ${inlineShape('sta')}.</li>
+        <li>Chacun démarre avec <b>30 wons</b>. On mise le montant entier de son choix (minimum 1 won).</li>
+        <li><b>Vote secret</b> : chacun choisit une forme. Le lot d'une forme = le nombre de joueurs qui l'ont choisie.</li>
+        <li><b>Enchère secrète</b> : la plus haute mise remporte le lot de sa forme. En cas d'égalité, le lot est partagé (arrondi à l'inférieur). <b>Toute mise est dépensée</b>, gagnée ou perdue.</li>
+        <li>Les mises gagnantes sont annoncées, <b>sauf la plus haute de la manche</b>. Les gagnants restent secrets.</li>
+        <li>Un joueur à 0 won est <b>éliminé</b> et classé dernier.</li>
+        <li>Après 7 manches : classement par <b>bingos</b>, puis <b>cases cochées</b>, puis <b>wons restants</b>.</li>
+      </ol>
+    </details>
+    ${ui.setupError ? `<p class="err">${esc(ui.setupError)}</p>` : ''}
+    <button class="btn btn-primary btn-big btn-block" data-act="startGame">Lancer la partie${icon('arrow')}</button>`;
+}
+
+function discussView() {
+  const elim = state.newlyEliminated.map(id => esc(byId(id).name));
+  return `<div>
+      <div class="eyebrow">Manche ${state.round} · Étape A</div>
+      <h2>Négociation</h2>
+      <p class="mut" style="margin-top:6px">Discutez, alliez-vous, bluffez. Ensuite, chacun votera en secret pour une forme.</p>
+    </div>
+    ${elim.length ? `<div class="banner"><b>${elim.join(', ')}</b> ${plural(elim.length, "n'a", "n'ont")} plus aucun won : ${plural(elim.length, 'éliminé·e', 'éliminé·e·s')} et ${plural(elim.length, 'classé·e', 'classé·e·s')} en bas du classement.</div>` : ''}
+    ${timerBlock()}
+    <div class="pstrip">${state.players.map(p => `<span class="pchip ${p.eliminated ? 'out' : ''}">${ava(p, 'sm')}${esc(p.name)}</span>`).join('')}</div>
+    <button class="btn btn-primary btn-big btn-block" data-act="beginVote">Commencer le vote secret${icon('arrow')}</button>`;
+}
+
+function voteView() {
+  const p = byId(state.queue[state.turn]);
+  const c = ui.voteChoice;
+  return `${privateFlag(p)}
+    <div><div class="eyebrow">Vote secret · Manche ${state.round}</div><h2>Choisis ta forme</h2></div>
+    ${inventory(p)}
+    <div class="pick" role="radiogroup">
+      ${SHAPES.map(s => `<button class="s-${s}" role="radio" aria-pressed="${c === s}" aria-checked="${c === s}" data-act="pickShape" data-s="${s}">${shapeSVG(s)}${SH[s].name}</button>`).join('')}
+    </div>
+    <button class="btn btn-primary btn-big btn-block" data-act="confirmVote" ${c ? '' : 'disabled'}>${c ? `Valider : ${SH[c].name}` : 'Sélectionne une forme'}</button>`;
+}
+
+function revealView() {
+  return `<div>
+      <div class="eyebrow">Manche ${state.round} · Révélation</div>
+      <h2>Les votes</h2>
+    </div>
+    ${boardHTML(state.current.votes)}
+    <p class="note">Le chiffre ×N est le lot à gagner sur chaque forme. Négociez et bluffez avant les mises : la plus haute enchère remporte le lot.</p>
+    ${timerBlock()}
+    <button class="btn btn-primary btn-big btn-block" data-act="beginBid">Passer aux enchères${icon('arrow')}</button>`;
+}
+
+function bidView() {
+  const p = byId(state.queue[state.turn]);
+  const s = state.current.votes[p.id];
+  const lot = Object.values(state.current.votes).filter(v => v === s).length;
+  ui.bid = Math.max(1, Math.min(p.wons, ui.bid));
+  return `${privateFlag(p)}
+    <div><div class="eyebrow">Enchère secrète · Manche ${state.round}</div><h2>Fixe ta mise</h2></div>
+    <div class="bid-target s-${s}">
+      ${shapeSVG(s)}
+      <div><b>Tu as voté ${SH[s].name}</b><p>Lot en jeu : <b style="font-size:inherit;color:var(--txt)">${lot} ${plural(lot, SH[s].name.toLowerCase(), SH[s].plural.toLowerCase())}</b>. En cas d'égalité, il est partagé (arrondi à l'inférieur).</p></div>
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <span class="eyebrow">Solde</span>
+        <div class="wallet"><b style="font-size:24px">${p.wons}</b><span>${plural(p.wons, 'won', 'wons')}</span></div>
+      </div>
+      <div class="stepper">
+        <button data-act="bidAdj" data-n="-1" aria-label="Moins un" ${ui.bid <= 1 ? 'disabled' : ''}>${icon('minus')}</button>
+        <div class="amount"><b data-bid>${ui.bid}</b><span>${plural(ui.bid, 'won', 'wons')}</span></div>
+        <button data-act="bidAdj" data-n="1" aria-label="Plus un" ${ui.bid >= p.wons ? 'disabled' : ''}>${icon('plus')}</button>
+      </div>
+      <div class="chips">
+        <button data-act="bidSet" data-n="1">1</button>
+        <button data-act="bidAdj" data-n="-5">−5</button>
+        <button data-act="bidAdj" data-n="5">+5</button>
+        <button data-act="bidAdj" data-n="10">+10</button>
+        <button class="allin" data-act="bidSet" data-n="${p.wons}">Tapis</button>
+      </div>
+    </div>
+    <p class="after">Il te restera <b>${p.wons - ui.bid}</b> ${plural(p.wons - ui.bid, 'won', 'wons')}. La mise est dépensée, que tu gagnes ou non.</p>
+    <button class="btn btn-primary btn-big btn-block" data-act="confirmBid">${icon('lock')}Sceller ma mise : ${ui.bid} ${plural(ui.bid, 'won', 'wons')}</button>
+    <details class="fold"><summary>Voir ma grille</summary><div>${inventory(p)}</div></details>`;
+}
+
+function bidLabel(h, s) {
+  const r = h.results[s];
+  if (!r.voters) return { txt: '—', cls: '' };
+  if (h.masked.includes(s)) return { txt: 'SECRET', cls: 'q' };
+  return { txt: `${r.maxBid}`, cls: '' };
+}
+
+function resultView() {
+  const h = state.history[state.history.length - 1];
+  const last = state.round >= ROUNDS;
+  return `<div>
+      <div class="eyebrow">Manche ${state.round} · Bilan</div>
+      <h2>Mises gagnantes</h2>
+    </div>
+    ${tilesHTML(h)}
+    <p class="note">Les gagnants restent anonymes. La mise gagnante la plus haute de la manche reste <b>SECRET</b>.</p>
+    ${isDealer()
+      ? `<button class="btn btn-ghost btn-block" data-act="dealerTable">${icon('lock')}Tableau du croupier</button>`
+      : `<button class="btn btn-ghost btn-block" data-act="peekOpen">${icon('eye')}Consulter mon inventaire privé</button>`}
+    <button class="btn btn-primary btn-big btn-block" data-act="nextRound">${last ? 'Voir le classement final' : `Manche ${state.round + 1}`}${icon('arrow')}</button>`;
+}
+
+function peekView() {
+  const pk = state.peek;
+  if (pk.pid === DEALER) {
+    return pk.sub === 'buffer'
+      ? dealerBuffer('Tableau du croupier', 'Les joueurs détournent le regard pendant que le croupier consulte les inventaires.', 'peekShow', 'peekClose')
+      : dealerTableView();
+  }
+  if (pk.sub === 'choose') {
+    return `<div><div class="eyebrow">Coup d'œil secret</div><h2>Qui consulte ?</h2>
+      <p class="mut" style="margin-top:6px">Chacun peut vérifier en privé s'il a remporté son enchère.</p></div>
+      <div class="plist">${state.players.map(p => `<button data-act="peekPick" data-pid="${p.id}">${esc(p.name)}</button>`).join('')}</div>
+      <button class="btn btn-ghost btn-block" data-act="peekClose">Retour au bilan</button>`;
+  }
+  const p = byId(pk.pid);
+  if (pk.sub === 'buffer') {
+    return `<div class="buffer">
+      <div class="eyebrow">Coup d'œil secret</div>
+      ${p.photo ? ava(p, 'xl') : `<div class="pass-icon">${icon('phone')}</div>`}
+      <p class="pass-txt">Passez l'appareil à</p>
+      <div class="pass-name">${esc(p.name)}</div>
+      <button class="btn btn-primary btn-big" data-act="peekShow">${icon('eye')}Je suis ${esc(p.name)}, afficher mon écran</button>
+      <button class="btn btn-ghost" style="margin-top:0" data-act="peekClose">Annuler</button>
+    </div>`;
+  }
+  const h = state.history[state.history.length - 1];
+  const s = h.votes[p.id], bid = h.bids[p.id];
+  let out;
+  if (!s) out = `<div class="outcome lose"><b>Pas de participation</b><span class="mut">Tu n'as pas joué cette manche.</span></div>`;
+  else {
+    const r = h.results[s];
+    out = r.winners.includes(p.id)
+      ? `<div class="outcome win"><b>Enchère remportée</b>Avec ${bid} ${plural(bid, 'won', 'wons')} sur ${inlineShape(s)} : tu gagnes <b style="display:inline;font-family:var(--mono);font-size:18px">+${r.qty}</b> ${plural(r.qty, SH[s].name.toLowerCase(), SH[s].plural.toLowerCase())}${r.winners.length > 1 ? ' (lot partagé)' : ''}.</div>`
+      : `<div class="outcome lose"><b>Enchère perdue</b><span class="mut">Ta mise de ${bid} ${plural(bid, 'won', 'wons')} sur ${inlineShape(s)} n'a pas suffi.</span></div>`;
+  }
+  return `${privateFlag(p)}
+    <div><div class="eyebrow">Coup d'œil secret · Manche ${state.round}</div><h2>Ton inventaire</h2></div>
+    ${out}
+    ${inventory(p)}
+    <button class="btn btn-primary btn-big btn-block" data-act="peekClose">${icon('lock')}Cacher et rendre l'appareil</button>`;
+}
+
+function endView() {
+  const rows = ranking();
+  const winner = rows[0];
+  const coWin = rows.filter(r => r.rank === 1);
+  return `<section class="hero" style="text-align:center;align-items:center">
+      <div class="eyebrow">Fin de partie · Révélation totale</div>
+      <h1 class="title" style="font-size:clamp(40px,12vw,68px)">${coWin.length > 1 ? 'Égalité' : esc(winner.p.name)}</h1>
+      <p class="lede">${coWin.length > 1 ? coWin.map(r => esc(r.p.name)).join(' & ') + ' se partagent la victoire.' : 'remporte l’Auction Bingo.'}</p>
+      ${state.endReason ? `<p class="note">${esc(state.endReason)}</p>` : ''}
+    </section>
+    <div class="rank">${rows.map((r, i) => `<div class="rrow ${r.rank === 1 ? 'first' : ''}">
+      <div class="pos">${r.rank}</div>
+      <div><div class="nm" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">${ava(r.p, 'sm')}${esc(r.p.name)}${r.p.eliminated ? `<span class="tag">Éliminé·e M${r.p.elimRound}</span>` : ''}</div>
+        <div class="st"><b>${r.ev.cells}</b>/9 cases · <b>${r.p.wons}</b> ${plural(r.p.wons, 'won', 'wons')} restants</div></div>
+      <div class="bg">${r.ev.bingos}<small>${plural(r.ev.bingos, 'bingo', 'bingos')}</small></div>
+    </div>`).join('')}</div>
+
+    <div class="sec-title"><span class="eyebrow">Les grilles</span></div>
+    <div class="pcards">${rows.map(r => `<div class="pcard">
+      <div class="nm" style="display:flex;align-items:center;gap:8px">${ava(r.p, 'sm')}${esc(r.p.name)}</div>
+      ${gridHTML(r.p, r.ev, true)}
+      ${acqHTML(r.p)}
+      ${r.ev.surplus ? `<div class="score-line">${r.ev.surplus} en surplus</div>` : ''}
+    </div>`).join('')}</div>
+
+    <div class="sec-title"><span class="eyebrow">Toutes les enchères</span></div>
+    ${state.history.map(h => `<div class="hround">
+      <div class="hround-h"><b>Manche ${h.round}</b></div>
+      ${Object.keys(h.votes).map(id => {
+        const s = h.votes[id], r = h.results[s], w = r.winners.includes(id);
+        return `<div class="bidline"><span>${esc(byId(id).name)}</span><span class="r s-${s}">${shapeSVG(s)}${h.bids[id]} ${w ? `<span class="won">+${r.qty}</span>` : '<span class="dim">·</span>'}</span></div>`;
+      }).join('')}
+    </div>`).join('')}
+
+    <button class="btn btn-primary btn-big btn-block" data-act="newGame">Nouvelle partie${icon('arrow')}</button>`;
+}
+
+/* =========================================================
+   HISTORIQUE PUBLIC
+   ========================================================= */
+function historyBar() {
+  const h = state.history[state.history.length - 1];
+  return `<div class="hbar"><button class="hbar-in" data-act="historyOpen">
+    <span class="lbl">M${h.round}</span>
+    <span class="last">${SHAPES.map(s => { const b = bidLabel(h, s); return `<span class="s-${s}">${shapeSVG(s)}<span class="${b.cls}">${b.cls ? '?' : b.txt}</span></span>`; }).join('')}</span>
+    <span class="more">Historique</span>
+  </button></div>`;
+}
+function historyDrawer() {
+  const list = state.history.slice().reverse();
+  return `<div class="overlay" data-act="historyClose"><div class="sheet" data-stop>
+    <div class="sheet-h"><h3>Historique public</h3><button class="icon-btn" data-act="historyClose" aria-label="Fermer">${icon('x')}</button></div>
+    ${list.length ? list.map(h => `<div class="hround">
+      <div class="hround-h"><b>Manche ${h.round}</b><span class="eyebrow" style="color:var(--mut)">Mise gagnante</span></div>
+      ${SHAPES.map(s => {
+        const names = Object.keys(h.votes).filter(id => h.votes[id] === s).map(id => esc(byId(id).name));
+        const b = bidLabel(h, s);
+        return `<div class="hrow s-${s}">${shapeSVG(s)}<span class="who">${names.length ? names.join(', ') : '<span class="dim">Personne</span>'}</span><span class="amt ${b.cls}">${b.cls ? 'SECRET' :b.txt === '—' ? '—' : b.txt + ' w'}</span></div>`;
+      }).join('')}
+    </div>`).join('') : '<p class="mut">Aucune manche terminée pour l’instant.</p>'}
+  </div></div>`;
+}
+
+function modalView() {
+  const m = ui.modal;
+  return `<div class="overlay center"><div class="modal" role="dialog" aria-modal="true">
+    <h3>${m.title}</h3><p>${m.body}</p>
+    <div class="btn-row">
+      <button class="btn btn-ghost" data-act="modalCancel">${m.cancel || 'Annuler'}</button>
+      <button class="btn ${m.danger ? 'btn-red' : 'btn-primary'}" data-act="modalOk">${m.ok}</button>
+    </div>
+  </div></div>`;
+}
+
+/* =========================================================
+   RENDU
+   ========================================================= */
+function isPrivate() {
+  return ((state.phase === 'vote' || state.phase === 'bid') && state.sub === 'private')
+      || (state.peek && state.peek.sub === 'private');
+}
+function phaseView() {
+  switch (state.phase) {
+    case 'setup':   return setupView();
+    case 'discuss': return discussView();
+    case 'vote':
+      if (isDealer()) return state.sub === 'buffer'
+        ? dealerBuffer('Saisie des votes', 'Chaque joueur indique sa forme au croupier en secret (à l’oreille ou sur papier).')
+        : dealerVoteView();
+      return state.sub === 'buffer' ? bufferView('Vote secret') : voteView();
+    case 'reveal':  return state.revealed ? revealView() : sealedView('vote');
+    case 'bid':
+      if (isDealer()) return state.sub === 'buffer'
+        ? dealerBuffer('Saisie des mises', 'Chaque joueur indique sa mise au croupier en secret. Toute mise est dépensée, gagnée ou perdue.')
+        : dealerBidView();
+      return state.sub === 'buffer' ? bufferView('Enchère secrète') : bidView();
+    case 'result':  return state.peek ? peekView() : (state.revealed ? resultView() : sealedView('bid'));
+    case 'end':     return endView();
+  }
+  return '';
+}
+function render() {
+  if (isTeaser()) {
+    document.body.dataset.view = 'teaser';
+    $app.innerHTML = teaserView();
+    updateCountdown();
+    return;
+  }
+  document.body.dataset.view = 'app';
+  const key = [state.phase, state.round, state.sub, state.turn, state.revealed, state.peek && state.peek.pid, state.peek && state.peek.sub].join('|');
+  const fresh = key !== ui.lastKey;
+  document.body.classList.toggle('no-anim', !fresh);   // n'anime qu'au changement d'écran
+  let html = header() + `<main class="main">${phaseView()}</main>`;
+  const showBar = state.phase !== 'setup' && state.phase !== 'end' && state.history.length && !isPrivate()
+               && !(state.sub === 'buffer' && (state.phase === 'vote' || state.phase === 'bid'));
+  if (showBar) html += historyBar();
+  if (ui.history) html += historyDrawer();
+  if (ui.modal) html += modalView();
+  $app.innerHTML = html;
+  paintTimer();
+  refreshDealerBids();
+  if (fresh) { ui.lastKey = key; window.scrollTo(0, 0); }
+}
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+function restart() {
+  state = freshState(state.players.map(p => p.name), state.setup, state.players.map(p => p.photo || ''));
+  ui.lastKey = '';
+  commit();
+}
+
+const ACTIONS = {
+  addPlayer() {
+    if (state.setup.names.length >= MAX_P) return;
+    state.setup.names.push(''); state.setup.photos.push(''); commit();
+    const ins = document.querySelectorAll('[data-name-i]'); if (ins.length) ins[ins.length - 1].focus();
+  },
+  removePlayer(d) { if (state.setup.names.length > MIN_P) { state.setup.names.splice(+d.i, 1); state.setup.photos.splice(+d.i, 1); commit(); } },
+  setMode(d) { state.setup.mode = d.m; commit(); },
+  toggleTimerOn() { state.setup.timerOn = !state.setup.timerOn; commit(); },
+  toggleSound() { state.sound = !state.sound; unlockAudio(); commit(); },
+  startGame,
+
+  tPlay() { unlockAudio(); tToggle(); paintTimer(); },
+  tReset() { tReset(false); save(); paintTimer(); },
+  tAdd(d) { tAdd(+d.ms); paintTimer(); },
+
+  beginVote,
+  showPrivate() { state.sub = 'private'; ui.voteChoice = null; ui.bid = 1; commit(); },
+  pickShape(d) { ui.voteChoice = d.s; render(); },
+  confirmVote,
+  revealVotes() { state.revealed = true; tReset(true); commit(); },
+  beginBid,
+  bidAdj(d) { ui.bid += +d.n; render(); },
+  bidSet(d) { ui.bid = +d.n; render(); },
+  confirmBid() {
+    const p = byId(state.queue[state.turn]);
+    const s = state.current.votes[p.id];
+    const amt = Math.max(1, Math.min(p.wons, ui.bid));
+    ui.modal = {
+      title: `Sceller ${amt} ${plural(amt, 'won', 'wons')} ?`,
+      body: `Ta mise sur ${inlineShape(s)} ${SH[s].name} sera définitivement dépensée, que tu gagnes ou non.`,
+      ok: 'Sceller', cancel: 'Modifier',
+      onOk: () => sealBid(amt),
+    };
+    render();
+  },
+  revealResults() { state.revealed = true; commit(); },
+
+  dVote(d) { state.draft[d.pid] = d.s; save(); render(); },
+  dConfirmVotes: dealerConfirmVotes,
+  dBidAdj(d) {
+    const p = byId(d.pid), v = state.draft[d.pid];
+    state.draft[d.pid] = Math.max(1, Math.min(p.wons, (Number.isInteger(v) ? v : 0) + +d.n));
+    save(); render();
+  },
+  dConfirmBids() {
+    if (!state.queue.every(bidValid)) return;
+    const total = state.queue.reduce((t, id) => t + state.draft[id], 0);
+    ui.modal = {
+      title: 'Valider les mises ?',
+      body: `${state.queue.length} mises, ${total} wons au total. Les montants sont définitivement débités, que l'enchère soit gagnée ou perdue.`,
+      ok: 'Valider', cancel: 'Modifier',
+      onOk: dealerSealBids,
+    };
+    render();
+  },
+  dealerTable() { state.peek = { pid: DEALER, sub: 'buffer' }; commit(); },
+  nextRound,
+
+  peekOpen() { state.peek = { pid: null, sub: 'choose' }; commit(); },
+  peekPick(d) { state.peek = { pid: d.pid, sub: 'buffer' }; commit(); },
+  peekShow() { state.peek.sub = 'private'; commit(); },
+  peekClose() { state.peek = null; commit(); },
+
+  historyOpen() { ui.history = true; render(); },
+  historyClose() { ui.history = false; render(); },
+
+  askReset() {
+    ui.modal = {
+      title: 'Abandonner la partie ?',
+      body: 'La partie en cours sera définitivement effacée. Les prénoms seront conservés.',
+      ok: 'Réinitialiser', danger: true,
+      onOk: restart,
+    };
+    render();
+  },
+  newGame: restart,
+  modalOk() { const m = ui.modal; ui.modal = null; m.onOk(); if (!ui.modal) render(); },
+  modalCancel() { ui.modal = null; render(); },
+};
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]');
+  if (!b || b.disabled) return;
+  // Les clics à l'intérieur du tiroir ne doivent pas le fermer
+  if (b.classList.contains('overlay') && e.target.closest('[data-stop]')) return;
+  const fn = ACTIONS[b.dataset.act];
+  if (fn) fn(b.dataset, b);
+});
+document.addEventListener('input', e => {
+  const t = e.target;
+  if (t.matches('[data-name-i]')) { state.setup.names[+t.dataset.nameI] = t.value; ui.setupError = ''; save(); }
+  if (t.matches('[data-dbid]')) {
+    const raw = t.value.replace(/\D/g, '');
+    if (raw !== t.value) t.value = raw;
+    state.draft[t.dataset.dbid] = raw === '' ? null : parseInt(raw, 10);
+    save(); refreshDealerBids();
+  }
+  if (t.matches('[data-minutes]')) {
+    state.setup.minutes = +t.value; save();
+    const l = document.querySelector('[data-minutes-label]'); if (l) l.textContent = `${t.value} min`;
+  }
+});
+document.addEventListener('change', async e => {
+  const t = e.target;
+  if (!t.matches('[data-photo-i]') || !t.files || !t.files[0]) return;
+  const i = +t.dataset.photoI;
+  try {
+    state.setup.photos[i] = await readPhoto(t.files[0]);
+    ui.setupError = '';
+    if (!save()) { state.setup.photos[i] = ''; save(); ui.setupError = 'Mémoire du navigateur pleine : photo non enregistrée.'; }
+  } catch (err) { ui.setupError = 'Impossible de lire cette image.'; }
+  render();
+});
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter' || !e.target.matches('[data-name-i]')) return;
+  e.preventDefault();
+  const ins = [...document.querySelectorAll('[data-name-i]')];
+  const i = ins.indexOf(e.target);
+  if (i < ins.length - 1) ins[i + 1].focus();
+  else if (state.setup.names.length < MAX_P) ACTIONS.addPlayer();
+  else e.target.blur();
+});
+
+/* =========================================================
+   BOUCLE (chronomètre + compte à rebours)
+   ========================================================= */
+let wasTeaser = isTeaser();
+setInterval(() => {
+  const teaser = isTeaser();
+  if (teaser) { updateCountdown(); wasTeaser = true; return; }
+  if (wasTeaser) { wasTeaser = false; render(); return; }   // ouverture du jeu en direct
+  const t = state.timer;
+  if (t.running && t.endAt <= Date.now()) {
+    t.running = false; t.remaining = 0;
+    if (!t.done) { t.done = true; beep(); }
+    save();
+  }
+  paintTimer();
+}, 250);
+
+render();
+})();
+</script>
+</body>
+</html>
