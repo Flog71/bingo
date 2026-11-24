@@ -201,21 +201,44 @@ details.rules[open] summary::after{content:"−"}
 .bid-target > svg{width:54px;height:54px;color:var(--c);flex:none}
 .bid-target b{font-size:18px}
 .bid-target p{font-size:13px;color:var(--mut)}
-.stepper{display:flex;align-items:center;justify-content:center;gap:16px;padding:8px 0}
-.stepper button{width:64px;height:64px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;background:rgba(255,255,255,.04);color:var(--gold2)}
-.stepper button .ic{width:26px;height:26px}
-.stepper .amount{min-width:130px;text-align:center}
-.stepper .amount b{display:block;font-family:var(--mono);font-size:72px;line-height:1;color:var(--gold2)}
-.stepper .amount span{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
-.chips{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.chips button{height:44px;border-radius:12px;border:1px solid var(--line2);background:rgba(255,255,255,.03);font-family:var(--mono);font-size:14px}
-.chips button.allin{color:#ff8a9b;border-color:rgba(255,59,85,.4);font-family:var(--sans);font-weight:700;font-size:13px}
 .after{text-align:center;font-size:13px;color:var(--mut)}
 .after b{color:var(--txt);font-family:var(--mono)}
 details.fold{border:1px solid var(--line2);border-radius:var(--r);background:var(--panel)}
 details.fold summary{list-style:none;padding:14px 16px;font-weight:600;font-size:14px;cursor:pointer;color:var(--mut)}
 details.fold summary::-webkit-details-marker{display:none}
 details.fold > div{padding:0 16px 16px}
+
+/* ---------- Jetons ---------- */
+.toks{display:flex;flex-wrap:wrap;gap:8px}
+.tok{--tc:#ebe4d4;--tt:#2a2015;--sz:54px;width:var(--sz);height:var(--sz);border-radius:50%;flex:none;display:grid;place-items:center;position:relative;color:var(--tt);
+  font-family:var(--mono);font-weight:500;font-size:calc(var(--sz) * .34);line-height:1;
+  background:radial-gradient(circle, var(--tc) 0 56%, transparent 57%), repeating-conic-gradient(var(--tc) 0 20deg, rgba(255,255,255,.9) 20deg 40deg);
+  box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.18), 0 3px 0 rgba(0,0,0,.4), 0 8px 14px -6px rgba(0,0,0,.7);transition:transform .15s, box-shadow .15s, opacity .15s}
+.tok::before{content:"";position:absolute;inset:20%;border-radius:50%;border:1.5px dashed rgba(0,0,0,.28)}
+.tok > span{position:relative}
+.tok.v1{--tc:#ebe4d4;--tt:#2a2015} .tok.v2{--tc:#c27a40;--tt:#fff} .tok.v3{--tc:#8c9dab;--tt:#0f171e} .tok.v5{--tc:#d9ab4f;--tt:#2a1a05} .tok.v10{--tc:#5d30a3;--tt:#fff}
+.tok.v2::before,.tok.v10::before{border-color:rgba(255,255,255,.4)}
+button.tok[aria-pressed="false"]{opacity:.92}
+button.tok[aria-pressed="true"]{transform:translateY(-9px);box-shadow:0 0 0 3px var(--gold2), 0 12px 20px -6px rgba(214,172,87,.75)}
+.pick-toks{justify-content:center;gap:10px 10px;padding-top:10px}
+.toks.sm{gap:7px}
+.toks.sm .tok{--sz:36px}
+.toks.sm button.tok[aria-pressed="true"]{transform:translateY(-5px)}
+.toks.xs{gap:4px}
+.toks.xs .tok{--sz:24px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.18), 0 2px 0 rgba(0,0,0,.4)}
+.toks.xs .tok::before{display:none}
+.bid-total{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;padding-top:14px;border-top:1px solid var(--line2)}
+.bid-total .amount{display:flex;align-items:baseline;gap:8px}
+.bid-total .amount b{font-family:var(--mono);font-size:44px;line-height:1;color:var(--gold2)}
+.bid-total .amount span{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.bid-tools{display:flex;gap:6px}
+.bid-tools .btn{min-height:42px;padding:8px 12px;font-size:14px}
+.bid-tools .allin{color:#ff8a9b;border-color:rgba(255,59,85,.4)}
+.drow.dtok{flex-direction:column;align-items:stretch;gap:10px}
+.dhead{display:flex;align-items:center;gap:10px}
+.dsum{text-align:right;flex:none}
+.dsum b{display:block;font-family:var(--mono);font-size:24px;line-height:1;color:var(--gold2)}
+.dsum span{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
 
 /* ---------- Sealed ---------- */
 .sealed{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;padding:30px 0}
@@ -362,11 +385,6 @@ details.fold > div{padding:0 16px 16px}
 .dpick button svg{width:22px;height:22px;color:var(--c);opacity:.4}
 .dpick button[aria-pressed="true"]{border-color:var(--c);background:color-mix(in srgb,var(--c) 22%,transparent)}
 .dpick button[aria-pressed="true"] svg{opacity:1}
-.dstep{display:flex;align-items:center;gap:4px}
-.dstep button{width:38px;height:46px;border-radius:10px;border:1px solid var(--line2);display:grid;place-items:center;color:var(--gold2);background:rgba(255,255,255,.03)}
-.dstep input{width:58px;height:46px;border-radius:10px;border:1px solid var(--line);background:rgba(0,0,0,.4);text-align:center;font-family:var(--mono);font-size:20px;color:var(--gold2);outline:none}
-.dstep input:focus{border-color:var(--gold)}
-.dstep input.bad{border-color:var(--red2);color:#ff8a9b}
 .dcards{display:flex;flex-direction:column;gap:10px}
 .dcard{border:1px solid var(--line2);border-radius:16px;padding:12px 14px;background:var(--panel);display:flex;flex-direction:column;gap:10px}
 .dcard-h{display:flex;align-items:center;gap:10px}
@@ -410,7 +428,9 @@ const LAUNCH_AT   = Date.parse('2026-12-12T17:00:00+01:00');
 const STORE_KEY   = 'auctionBingo.v2';
 const ROUNDS      = 7;
 const DEALER      = '__dealer';
-const START_WONS  = 30;
+// 10 jetons non divisibles par joueur : 3×1, 3×2, 2×3, 1×5, 1×10 = 30 écus
+const START_TOKENS = [1, 1, 1, 2, 2, 2, 3, 3, 5, 10];
+const START_WONS   = START_TOKENS.reduce((a, b) => a + b, 0);
 const MIN_P = 3, MAX_P = 8;
 const SHAPES = ['tri', 'cir', 'sta'];
 // Grille commune à tous les joueurs (disposition de l'émission) : 3 ▲, 4 ●, 2 ★
@@ -433,7 +453,7 @@ function freshState(names, prev, photos) {
   const keep = names && names.length >= MIN_P;
   const n = keep ? names.slice(0, MAX_P) : ['', '', ''];
   return {
-    v: 3,
+    v: 4,
     phase: 'setup',
     setup: {
       names: n,
@@ -458,11 +478,9 @@ function freshState(names, prev, photos) {
 function load() {
   try {
     const s = JSON.parse(localStorage.getItem(STORE_KEY));
-    if (!s || (s.v !== 2 && s.v !== 3)) return null;
-    if (s.v === 2) {   // migration de l'ancienne version
-      s.v = 3; s.setup.mode = 'pass'; s.draft = {};
-      s.setup.photos = s.setup.names.map(() => '');
-    }
+    if (!s) return null;
+    // Ancienne version (sans jetons) : on garde les réglages et les joueurs, la partie repart à zéro
+    if (s.v !== 4) return s.setup ? freshState(s.setup.names, s.setup, s.setup.photos) : null;
     // Sécurité : après un rechargement, on ne réaffiche jamais directement un écran privé
     if (s.sub === 'private') s.sub = 'buffer';
     if (s.peek && s.peek.pid !== DEALER) s.peek = null;   // ancien coup d'œil joueur : supprimé
@@ -473,7 +491,7 @@ function load() {
 function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); return true; } catch (e) { return false; } }
 
 let state = load() || freshState();
-const ui = { voteChoice: null, bid: 1, history: false, modal: null, setupError: '', lastKey: '' };
+const ui = { voteChoice: null, sel: [], history: false, modal: null, setupError: '', lastKey: '' };
 
 const byId = id => state.players.find(p => p.id === id);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
@@ -692,7 +710,7 @@ function startGame() {
   state.setup.names = names.slice();
   state.setup.photos = rows.map(r => r.ph);
   state.players = names.map((n, i) => ({
-    id: 'p' + i, name: n, photo: rows[i].ph, grid: GRID.slice(), wons: START_WONS,
+    id: 'p' + i, name: n, photo: rows[i].ph, grid: GRID.slice(), tokens: START_TOKENS.slice(), wons: START_WONS,
     acquired: { tri: 0, cir: 0, sta: 0 }, eliminated: false, elimRound: null,
   }));
   state.history = []; state.round = 1; state.endReason = null;
@@ -727,16 +745,23 @@ function dealerConfirmVotes() {
   state.phase = 'reveal'; state.revealed = false;
   commit();
 }
+// Retire définitivement les jetons misés (aucune monnaie rendue) et renvoie le montant
+function spendTokens(p, idxs) {
+  const set = new Set(idxs.map(Number));
+  const amount = p.tokens.reduce((t, v, i) => set.has(i) ? t + v : t, 0);
+  p.tokens = p.tokens.filter((_, i) => !set.has(i));
+  p.wons = p.tokens.reduce((a, b) => a + b, 0);
+  return amount;
+}
+const selSum = (p, idxs) => (idxs || []).reduce((t, i) => t + (p.tokens[i] || 0), 0);
 function bidValid(id) {
-  const v = state.draft[id], p = byId(id);
-  return Number.isInteger(v) && v >= 1 && v <= p.wons;
+  const v = state.draft[id];
+  return Array.isArray(v) && v.length > 0;
 }
 function dealerSealBids() {
   if (!state.queue.every(bidValid)) return;
   state.queue.forEach(id => {
-    const p = byId(id), a = state.draft[id];
-    p.wons -= a;                    // dépensé quoi qu'il arrive
-    state.current.bids[id] = a;
+    state.current.bids[id] = spendTokens(byId(id), state.draft[id]);   // dépensé quoi qu'il arrive
   });
   state.draft = {}; state.sub = 'buffer';
   resolveRound();
@@ -754,11 +779,10 @@ function confirmVote() {
 
 function beginBid() { tStop(); state.phase = 'bid'; state.queue = activeIds(); state.turn = 0; state.sub = 'buffer'; state.draft = {}; commit(); }
 
-function sealBid(amount) {
+function sealBid(idxs) {
   const p = byId(state.queue[state.turn]);
-  amount = Math.max(1, Math.min(p.wons, Math.floor(amount)));
-  p.wons -= amount;                 // dépensé quoi qu'il arrive
-  state.current.bids[p.id] = amount;
+  if (!idxs.length) return;
+  state.current.bids[p.id] = spendTokens(p, idxs);   // dépensé quoi qu'il arrive
   state.turn++; state.sub = 'buffer';
   if (state.turn >= state.queue.length) resolveRound();
   commit();
@@ -836,12 +860,20 @@ function acqHTML(p) {
     return `<div class="acq s-${s}">${shapeSVG(s)}<b>${Math.min(a, n)}/${n}</b>${a > n ? `<span class="surplus">+${a - n}</span>` : ''}</div>`;
   }).join('')}</div>`;
 }
+function tokenBtn(v, i, on, act, pid) {
+  return `<button class="tok v${v}" aria-pressed="${on}" aria-label="Jeton de ${v} ${plural(v, 'écu', 'écus')}" data-act="${act}" data-i="${i}" ${pid ? `data-pid="${pid}"` : ''}><span>${v}</span></button>`;
+}
+function tokensHTML(tokens, size) {
+  if (!tokens.length) return `<span class="dim" style="font-size:13px">Plus aucun jeton</span>`;
+  return `<div class="toks ${size || ''}">${tokens.map(v => `<span class="tok v${v}"><span>${v}</span></span>`).join('')}</div>`;
+}
 // Écran privé : seul le solde est personnel — les formes remportées restent inconnues de tous
 function inventory(p) {
   return `<div class="card inv">
     ${gridHTML(p.grid)}
     <div class="inv-side">
       <div><div class="eyebrow" style="margin-bottom:4px">Solde</div><div class="wallet"><b>${p.wons}</b><span>${plural(p.wons, 'écu', 'écus')}</span></div></div>
+      ${tokensHTML(p.tokens, 'xs')}
       <p class="score-line">Grille commune à tous. Les formes remportées ne seront révélées qu'à la fin de la partie.</p>
     </div>
   </div>`;
@@ -893,41 +925,21 @@ function dealerVoteView() {
 function dealerBidView() {
   const ids = state.queue, d = state.draft, votes = state.current.votes;
   const lot = s => Object.values(votes).filter(v => v === s).length;
+  const ok = ids.filter(bidValid).length, left = ids.length - ok;
   return `${dealerFlag()}
     <div><div class="eyebrow">Manche ${state.round} · Enchères secrètes</div><h2>Saisie des mises</h2></div>
-    <div class="dprog"><span>Mise de chaque joueur (min. 1 écu)</span><span data-dcount></span></div>
+    <div class="dprog"><span>Jetons misés par chaque joueur (min. 1 jeton)</span><span><b>${ok}</b>/${ids.length}</span></div>
     <div class="drows">${ids.map(id => {
-      const p = byId(id), s = votes[id], v = d[id];
-      return `<div class="drow" data-drow="${id}">${ava(p)}
-        <div class="nm"><span>${esc(p.name)}</span><small>${inlineShape(s)} lot ×${lot(s)} · solde <b>${p.wons}</b></small></div>
-        <div class="dstep">
-          <button data-act="dBidAdj" data-pid="${id}" data-n="-1" aria-label="Moins un">${icon('minus')}</button>
-          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="3" autocomplete="off" data-dbid="${id}" value="${v == null ? '' : v}" placeholder="–" aria-label="Mise de ${esc(p.name)}">
-          <button data-act="dBidAdj" data-pid="${id}" data-n="1" aria-label="Plus un">${icon('plus')}</button>
+      const p = byId(id), s = votes[id], sel = d[id] || [], amt = selSum(p, sel);
+      return `<div class="drow dtok ${sel.length ? 'ok' : ''}">
+        <div class="dhead">${ava(p)}
+          <div class="nm"><span>${esc(p.name)}</span><small>${inlineShape(s)} lot ×${lot(s)} · solde <b>${p.wons}</b></small></div>
+          <div class="dsum"><b>${amt}</b><span>mise</span></div>
         </div>
+        <div class="toks sm">${p.tokens.map((v, i) => tokenBtn(v, i, sel.includes(i), 'dTok', id)).join('')}</div>
       </div>`;
     }).join('')}</div>
-    <p class="err" data-derr></p>
-    <button class="btn btn-primary btn-big btn-block" data-act="dConfirmBids" data-dsubmit>Valider les mises</button>`;
-}
-// Mise à jour légère (sans re-rendu) pendant la saisie au clavier
-function refreshDealerBids() {
-  const submit = document.querySelector('[data-dsubmit]');
-  if (!submit) return;
-  const ids = state.queue;
-  let ok = 0;
-  ids.forEach(id => {
-    const row = document.querySelector(`[data-drow="${id}"]`), good = bidValid(id);
-    if (good) ok++;
-    row.classList.toggle('ok', good);
-    row.querySelector('input').classList.toggle('bad', state.draft[id] != null && !good);
-  });
-  document.querySelector('[data-dcount]').innerHTML = `<b>${ok}</b>/${ids.length}`;
-  const left = ids.length - ok;
-  submit.disabled = left > 0;
-  submit.innerHTML = left ? `Encore ${left} ${plural(left, 'mise', 'mises')} à saisir` : `${icon('lock')}Valider les mises`;
-  const bad = ids.filter(id => state.draft[id] != null && !bidValid(id)).map(byId);
-  document.querySelector('[data-derr]').textContent = bad.map(p => `${p.name} : entre 1 et ${p.wons}`).join(' · ');
+    <button class="btn btn-primary btn-big btn-block" data-act="dConfirmBids" ${left ? 'disabled' : ''}>${left ? `Encore ${left} ${plural(left, 'mise', 'mises')} à saisir` : `${icon('lock')}Valider les mises`}</button>`;
 }
 function dealerTableView() {
   const h = state.history[state.history.length - 1];
@@ -939,6 +951,7 @@ function dealerTableView() {
       return `<div class="dcard">
         <div class="dcard-h">${ava(p)}<div class="nm">${esc(p.name)}${p.eliminated ? '<span class="tag">Éliminé·e</span>' : ''}</div>
           <div class="wallet"><b style="font-size:22px">${p.wons}</b><span>${plural(p.wons, 'écu', 'écus')}</span></div></div>
+        ${tokensHTML(p.tokens, 'xs')}
         <div class="dcard-r">${s
           ? `${inlineShape(s)} mise <b style="font-family:var(--mono)">${h.bids[p.id]}</b> → ${w
               ? `<span class="won">remportée : +${r.qty} ${plural(r.qty, SH[s].name.toLowerCase(), SH[s].plural.toLowerCase())}${r.winners.length > 1 ? ' (partagé)' : ''}</span>`
@@ -1075,11 +1088,11 @@ function setupView() {
         <li>En mode <b>Croupier</b>, chaque joueur glisse sa forme puis sa mise au croupier en secret (à l'oreille ou sur papier) ; seul le croupier voit les écrans de saisie.</li>
         <li>Tous les joueurs ont la <b>même grille 3×3</b> : 3 ${inlineShape('tri')}, 4 ${inlineShape('cir')}, 2 ${inlineShape('sta')}. Les exemplaires gagnés en trop sont perdus.</li>
         <li>Les <b>formes remportées restent secrètes</b> jusqu'à la fin, même pour leur gagnant : chacun ne connaît que son solde.</li>
-        <li>Chacun démarre avec <b>30 écus</b>. On mise le montant entier de son choix (minimum 1 écu).</li>
+        <li>Chacun démarre avec <b>30 écus en 10 jetons non divisibles</b> : 3×1, 3×2, 2×3, 1×5 et 1×10. On mise en choisissant un ou plusieurs jetons, sans monnaie rendue.</li>
         <li><b>Vote secret</b> : chacun choisit une forme. Le lot d'une forme = le nombre de joueurs qui l'ont choisie.</li>
         <li><b>Enchère secrète</b> : la plus haute mise remporte le lot de sa forme. En cas d'égalité, le lot est partagé (arrondi à l'inférieur). <b>Toute mise est dépensée</b>, gagnée ou perdue.</li>
         <li>Les mises gagnantes sont annoncées, <b>sauf la plus haute de la manche</b> (SECRET). Personne ne sait qui a gagné.</li>
-        <li>Un joueur à 0 écu est <b>éliminé</b> et classé dernier.</li>
+        <li>Un joueur qui n'a plus de jeton est <b>éliminé</b> et classé dernier.</li>
         <li>Après 7 manches : classement par <b>bingos</b>, puis <b>cases cochées</b>, puis <b>écus restants</b>.</li>
       </ol>
     </details>
@@ -1094,7 +1107,7 @@ function discussView() {
       <h2>Négociation</h2>
       <p class="mut" style="margin-top:6px">Discutez, alliez-vous, bluffez. Ensuite, chacun votera en secret pour une forme.</p>
     </div>
-    ${elim.length ? `<div class="banner"><b>${elim.join(', ')}</b> ${plural(elim.length, "n'a", "n'ont")} plus aucun écu : ${plural(elim.length, 'éliminé·e', 'éliminé·e·s')} et ${plural(elim.length, 'classé·e', 'classé·e·s')} en bas du classement.</div>` : ''}
+    ${elim.length ? `<div class="banner"><b>${elim.join(', ')}</b> ${plural(elim.length, "n'a", "n'ont")} plus aucun jeton : ${plural(elim.length, 'éliminé·e', 'éliminé·e·s')} et ${plural(elim.length, 'classé·e', 'classé·e·s')} en bas du classement.</div>` : ''}
     ${timerBlock()}
     <div class="pstrip">${state.players.map(p => `<span class="pchip ${p.eliminated ? 'out' : ''}">${ava(p, 'sm')}${esc(p.name)}</span>`).join('')}</div>
     <button class="btn btn-primary btn-big btn-block" data-act="beginVote">Commencer le vote secret${icon('arrow')}</button>`;
@@ -1127,33 +1140,30 @@ function bidView() {
   const p = byId(state.queue[state.turn]);
   const s = state.current.votes[p.id];
   const lot = Object.values(state.current.votes).filter(v => v === s).length;
-  ui.bid = Math.max(1, Math.min(p.wons, ui.bid));
+  ui.sel = ui.sel.filter(i => i < p.tokens.length);
+  const amt = selSum(p, ui.sel), left = p.wons - amt, nLeft = p.tokens.length - ui.sel.length;
   return `${privateFlag(p)}
-    <div><div class="eyebrow">Enchère secrète · Manche ${state.round}</div><h2>Fixe ta mise</h2></div>
+    <div><div class="eyebrow">Enchère secrète · Manche ${state.round}</div><h2>Choisis tes jetons</h2></div>
     <div class="bid-target s-${s}">
       ${shapeSVG(s)}
       <div><b>Tu as voté ${SH[s].name}</b><p>Lot en jeu : <b style="font-size:inherit;color:var(--txt)">${lot} ${plural(lot, SH[s].name.toLowerCase(), SH[s].plural.toLowerCase())}</b>. En cas d'égalité, il est partagé (arrondi à l'inférieur).</p></div>
     </div>
     <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:baseline">
-        <span class="eyebrow">Solde</span>
-        <div class="wallet"><b style="font-size:24px">${p.wons}</b><span>${plural(p.wons, 'écu', 'écus')}</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px">
+        <span class="eyebrow">Tes jetons</span>
+        <span class="mut" style="font-size:13px">${p.tokens.length} ${plural(p.tokens.length, 'jeton', 'jetons')} · ${p.wons} ${plural(p.wons, 'écu', 'écus')}</span>
       </div>
-      <div class="stepper">
-        <button data-act="bidAdj" data-n="-1" aria-label="Moins un" ${ui.bid <= 1 ? 'disabled' : ''}>${icon('minus')}</button>
-        <div class="amount"><b data-bid>${ui.bid}</b><span>${plural(ui.bid, 'écu', 'écus')}</span></div>
-        <button data-act="bidAdj" data-n="1" aria-label="Plus un" ${ui.bid >= p.wons ? 'disabled' : ''}>${icon('plus')}</button>
-      </div>
-      <div class="chips">
-        <button data-act="bidSet" data-n="1">1</button>
-        <button data-act="bidAdj" data-n="-5">−5</button>
-        <button data-act="bidAdj" data-n="5">+5</button>
-        <button data-act="bidAdj" data-n="10">+10</button>
-        <button class="allin" data-act="bidSet" data-n="${p.wons}">Tapis</button>
+      <div class="toks pick-toks">${p.tokens.map((v, i) => tokenBtn(v, i, ui.sel.includes(i), 'tokToggle')).join('')}</div>
+      <div class="bid-total">
+        <div class="amount"><span>Mise</span><b>${amt}</b><span>${plural(amt, 'écu', 'écus')}</span></div>
+        <div class="bid-tools">
+          <button class="btn btn-ghost" data-act="tokClear" ${ui.sel.length ? '' : 'disabled'}>Effacer</button>
+          <button class="btn btn-ghost allin" data-act="tokAll" ${ui.sel.length === p.tokens.length ? 'disabled' : ''}>Tapis</button>
+        </div>
       </div>
     </div>
-    <p class="after">Il te restera <b>${p.wons - ui.bid}</b> ${plural(p.wons - ui.bid, 'écu', 'écus')}. La mise est dépensée, que tu gagnes ou non.</p>
-    <button class="btn btn-primary btn-big btn-block" data-act="confirmBid">${icon('lock')}Sceller ma mise : ${ui.bid} ${plural(ui.bid, 'écu', 'écus')}</button>`;
+    <p class="after">${amt ? `Il te restera <b>${left}</b> ${plural(left, 'écu', 'écus')} en ${nLeft} ${plural(nLeft, 'jeton', 'jetons')}. Les jetons misés sont dépensés, que tu gagnes ou non. Pas de monnaie rendue.` : 'Touche un ou plusieurs jetons pour composer ta mise (minimum 1 jeton).'}</p>
+    <button class="btn btn-primary btn-big btn-block" data-act="confirmBid" ${amt ? '' : 'disabled'}>${icon('lock')}${amt ? `Sceller ma mise : ${amt} ${plural(amt, 'écu', 'écus')}` : 'Sélectionne au moins un jeton'}</button>`;
 }
 
 function bidLabel(h, s) {
@@ -1209,6 +1219,7 @@ function endView() {
       ${gridHTML(r.p.grid, r.ev, true)}
       ${acqHTML(r.p)}
       ${r.ev.surplus ? `<div class="score-line">${r.ev.surplus} en surplus</div>` : ''}
+      ${tokensHTML(r.p.tokens, 'xs')}
     </div>`).join('')}</div>
 
     <div class="sec-title"><span class="eyebrow">Toutes les enchères</span></div>
@@ -1306,7 +1317,6 @@ function render() {
   if (ui.modal) html += modalView();
   $app.innerHTML = html;
   paintTimer();
-  refreshDealerBids();
   if (fresh) { ui.lastKey = key; window.scrollTo(0, 0); }
 }
 
@@ -1336,22 +1346,25 @@ const ACTIONS = {
   tAdd(d) { tAdd(+d.ms); paintTimer(); },
 
   beginVote,
-  showPrivate() { state.sub = 'private'; ui.voteChoice = null; ui.bid = 1; commit(); },
+  showPrivate() { state.sub = 'private'; ui.voteChoice = null; ui.sel = []; commit(); },
   pickShape(d) { ui.voteChoice = d.s; render(); },
   confirmVote,
   revealVotes() { state.revealed = true; tReset(true); commit(); },
   beginBid,
-  bidAdj(d) { ui.bid += +d.n; render(); },
-  bidSet(d) { ui.bid = +d.n; render(); },
+  tokToggle(d) { const i = +d.i; ui.sel = ui.sel.includes(i) ? ui.sel.filter(x => x !== i) : ui.sel.concat(i); render(); },
+  tokAll() { ui.sel = byId(state.queue[state.turn]).tokens.map((_, i) => i); render(); },
+  tokClear() { ui.sel = []; render(); },
   confirmBid() {
     const p = byId(state.queue[state.turn]);
     const s = state.current.votes[p.id];
-    const amt = Math.max(1, Math.min(p.wons, ui.bid));
+    const idxs = ui.sel.slice(), amt = selSum(p, idxs);
+    if (!amt) return;
+    const vals = idxs.map(i => p.tokens[i]).sort((a, b) => b - a);
     ui.modal = {
       title: `Sceller ${amt} ${plural(amt, 'écu', 'écus')} ?`,
-      body: `Ta mise sur ${inlineShape(s)} ${SH[s].name} sera définitivement dépensée, que tu gagnes ou non.`,
+      body: `${plural(vals.length, 'Jeton misé', 'Jetons misés')} sur ${inlineShape(s)} ${SH[s].name} : <b>${vals.join(' + ')}</b>. ${plural(vals.length, 'Il sera définitivement dépensé', 'Ils seront définitivement dépensés')}, que tu gagnes ou non.`,
       ok: 'Sceller', cancel: 'Modifier',
-      onOk: () => sealBid(amt),
+      onOk: () => sealBid(idxs),
     };
     render();
   },
@@ -1359,17 +1372,17 @@ const ACTIONS = {
 
   dVote(d) { state.draft[d.pid] = d.s; save(); render(); },
   dConfirmVotes: dealerConfirmVotes,
-  dBidAdj(d) {
-    const p = byId(d.pid), v = state.draft[d.pid];
-    state.draft[d.pid] = Math.max(1, Math.min(p.wons, (Number.isInteger(v) ? v : 0) + +d.n));
+  dTok(d) {
+    const i = +d.i, cur = state.draft[d.pid] || [];
+    state.draft[d.pid] = cur.includes(i) ? cur.filter(x => x !== i) : cur.concat(i);
     save(); render();
   },
   dConfirmBids() {
     if (!state.queue.every(bidValid)) return;
-    const total = state.queue.reduce((t, id) => t + state.draft[id], 0);
+    const total = state.queue.reduce((t, id) => t + selSum(byId(id), state.draft[id]), 0);
     ui.modal = {
       title: 'Valider les mises ?',
-      body: `${state.queue.length} mises, ${total} écus au total. Les montants sont définitivement débités, que l'enchère soit gagnée ou perdue.`,
+      body: `${state.queue.length} mises, ${total} écus au total. Les jetons misés sont définitivement retirés, que l'enchère soit gagnée ou perdue.`,
       ok: 'Valider', cancel: 'Modifier',
       onOk: dealerSealBids,
     };
@@ -1409,12 +1422,6 @@ document.addEventListener('click', e => {
 document.addEventListener('input', e => {
   const t = e.target;
   if (t.matches('[data-name-i]')) { state.setup.names[+t.dataset.nameI] = t.value; ui.setupError = ''; save(); }
-  if (t.matches('[data-dbid]')) {
-    const raw = t.value.replace(/\D/g, '');
-    if (raw !== t.value) t.value = raw;
-    state.draft[t.dataset.dbid] = raw === '' ? null : parseInt(raw, 10);
-    save(); refreshDealerBids();
-  }
   if (t.matches('[data-minutes]')) {
     state.setup.minutes = +t.value; save();
     const l = document.querySelector('[data-minutes-label]'); if (l) l.textContent = `${t.value} min`;
