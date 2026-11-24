@@ -701,7 +701,7 @@ function startGame() {
 
 function startRound() {
   state.newlyEliminated = [];
-  // Règle d'élimination : un joueur à 0 won ne peut plus miser
+  // Règle d'élimination : un joueur à 0 écu ne peut plus miser
   state.players.forEach(p => {
     if (!p.eliminated && p.wons <= 0) { p.eliminated = true; p.elimRound = state.round; state.newlyEliminated.push(p.id); }
   });
@@ -841,7 +841,7 @@ function inventory(p) {
   return `<div class="card inv">
     ${gridHTML(p.grid)}
     <div class="inv-side">
-      <div><div class="eyebrow" style="margin-bottom:4px">Solde</div><div class="wallet"><b>${p.wons}</b><span>${plural(p.wons, 'won', 'wons')}</span></div></div>
+      <div><div class="eyebrow" style="margin-bottom:4px">Solde</div><div class="wallet"><b>${p.wons}</b><span>${plural(p.wons, 'écu', 'écus')}</span></div></div>
       <p class="score-line">Grille commune à tous. Les formes remportées ne seront révélées qu'à la fin de la partie.</p>
     </div>
   </div>`;
@@ -895,7 +895,7 @@ function dealerBidView() {
   const lot = s => Object.values(votes).filter(v => v === s).length;
   return `${dealerFlag()}
     <div><div class="eyebrow">Manche ${state.round} · Enchères secrètes</div><h2>Saisie des mises</h2></div>
-    <div class="dprog"><span>Mise de chaque joueur (min. 1 won)</span><span data-dcount></span></div>
+    <div class="dprog"><span>Mise de chaque joueur (min. 1 écu)</span><span data-dcount></span></div>
     <div class="drows">${ids.map(id => {
       const p = byId(id), s = votes[id], v = d[id];
       return `<div class="drow" data-drow="${id}">${ava(p)}
@@ -938,7 +938,7 @@ function dealerTableView() {
       const s = h.votes[p.id], r = s && h.results[s], w = r && r.winners.includes(p.id), ev = evaluate(p);
       return `<div class="dcard">
         <div class="dcard-h">${ava(p)}<div class="nm">${esc(p.name)}${p.eliminated ? '<span class="tag">Éliminé·e</span>' : ''}</div>
-          <div class="wallet"><b style="font-size:22px">${p.wons}</b><span>${plural(p.wons, 'won', 'wons')}</span></div></div>
+          <div class="wallet"><b style="font-size:22px">${p.wons}</b><span>${plural(p.wons, 'écu', 'écus')}</span></div></div>
         <div class="dcard-r">${s
           ? `${inlineShape(s)} mise <b style="font-family:var(--mono)">${h.bids[p.id]}</b> → ${w
               ? `<span class="won">remportée : +${r.qty} ${plural(r.qty, SH[s].name.toLowerCase(), SH[s].plural.toLowerCase())}${r.winners.length > 1 ? ' (partagé)' : ''}</span>`
@@ -967,7 +967,7 @@ function tilesHTML(h) {
     const r = h.results[s], d = `animation-delay:${0.45 + i * 0.18}s`;
     const val = !r.voters ? `<div class="tbid none" style="${d}">—</div>`
       : h.masked.includes(s) ? `<div class="secret" style="${d}">SECRET</div>`
-      : `<div class="tbid" style="${d}">${r.maxBid}<small>${plural(r.maxBid, 'won', 'wons')}</small></div>`;
+      : `<div class="tbid" style="${d}">${r.maxBid}<small>${plural(r.maxBid, 'écu', 'écus')}</small></div>`;
     return `<div class="tcol s-${s}"><div class="tile" style="animation-delay:${i * 0.12}s">${outlineSVG(s)}</div>${val}
       <div class="tlot">${r.voters ? `lot ×${r.voters}` : 'aucun votant'}</div></div>`;
   }).join('')}</div>`;
@@ -999,14 +999,14 @@ function teaserView() {
   <div class="teaser">
     <div class="eyebrow"><span class="live-dot"></span>Ouverture des enchères</div>
     <h1 class="title">Le Bingo<br><em>des enchères</em></h1>
-    <p class="lede" style="margin:0 auto">Une grille commune, 30 wons, et des gains que personne ne connaît avant la fin.</p>
+    <p class="lede" style="margin:0 auto">Une grille commune, 30 écus, et des gains que personne ne connaît avant la fin.</p>
     <div class="cd" role="timer" aria-live="off">
       <div><b data-cd="d">--</b><span>Jours</span></div>
       <div><b data-cd="h">--</b><span>Heures</span></div>
       <div><b data-cd="m">--</b><span>Min</span></div>
       <div><b data-cd="s">--</b><span>Sec</span></div>
     </div>
-    <div class="cd-date">Samedi 12 décembre · 17h00<small>Heure de Paris</small></div>
+    <div class="cd-date">Samedi 12 décembre · 17h00</div>
     <div class="teaser-grid">${gridHTML(GRID, evaluate(demo), true)}</div>
     <div class="feats">
       <div class="feat"><b>7</b>manches</div>
@@ -1030,7 +1030,7 @@ function setupView() {
   return `<section class="hero">
       <div class="eyebrow">Pass &amp; Play · Inspiré de The Devil's Plan</div>
       <h1 class="title">Le Bingo<br><em>des enchères</em></h1>
-      <p class="lede">7 manches, 30 wons, et des gains que personne ne connaît avant la fin.</p>
+      <p class="lede">7 manches, 30 écus, et des gains que personne ne connaît avant la fin.</p>
     </section>
     <div class="card">
       <div class="card-h"><span>Mode de jeu</span></div>
@@ -1075,12 +1075,12 @@ function setupView() {
         <li>En mode <b>Croupier</b>, chaque joueur glisse sa forme puis sa mise au croupier en secret (à l'oreille ou sur papier) ; seul le croupier voit les écrans de saisie.</li>
         <li>Tous les joueurs ont la <b>même grille 3×3</b> : 3 ${inlineShape('tri')}, 4 ${inlineShape('cir')}, 2 ${inlineShape('sta')}. Les exemplaires gagnés en trop sont perdus.</li>
         <li>Les <b>formes remportées restent secrètes</b> jusqu'à la fin, même pour leur gagnant : chacun ne connaît que son solde.</li>
-        <li>Chacun démarre avec <b>30 wons</b>. On mise le montant entier de son choix (minimum 1 won).</li>
+        <li>Chacun démarre avec <b>30 écus</b>. On mise le montant entier de son choix (minimum 1 écu).</li>
         <li><b>Vote secret</b> : chacun choisit une forme. Le lot d'une forme = le nombre de joueurs qui l'ont choisie.</li>
         <li><b>Enchère secrète</b> : la plus haute mise remporte le lot de sa forme. En cas d'égalité, le lot est partagé (arrondi à l'inférieur). <b>Toute mise est dépensée</b>, gagnée ou perdue.</li>
         <li>Les mises gagnantes sont annoncées, <b>sauf la plus haute de la manche</b> (SECRET). Personne ne sait qui a gagné.</li>
-        <li>Un joueur à 0 won est <b>éliminé</b> et classé dernier.</li>
-        <li>Après 7 manches : classement par <b>bingos</b>, puis <b>cases cochées</b>, puis <b>wons restants</b>.</li>
+        <li>Un joueur à 0 écu est <b>éliminé</b> et classé dernier.</li>
+        <li>Après 7 manches : classement par <b>bingos</b>, puis <b>cases cochées</b>, puis <b>écus restants</b>.</li>
       </ol>
     </details>
     ${ui.setupError ? `<p class="err">${esc(ui.setupError)}</p>` : ''}
@@ -1094,7 +1094,7 @@ function discussView() {
       <h2>Négociation</h2>
       <p class="mut" style="margin-top:6px">Discutez, alliez-vous, bluffez. Ensuite, chacun votera en secret pour une forme.</p>
     </div>
-    ${elim.length ? `<div class="banner"><b>${elim.join(', ')}</b> ${plural(elim.length, "n'a", "n'ont")} plus aucun won : ${plural(elim.length, 'éliminé·e', 'éliminé·e·s')} et ${plural(elim.length, 'classé·e', 'classé·e·s')} en bas du classement.</div>` : ''}
+    ${elim.length ? `<div class="banner"><b>${elim.join(', ')}</b> ${plural(elim.length, "n'a", "n'ont")} plus aucun écu : ${plural(elim.length, 'éliminé·e', 'éliminé·e·s')} et ${plural(elim.length, 'classé·e', 'classé·e·s')} en bas du classement.</div>` : ''}
     ${timerBlock()}
     <div class="pstrip">${state.players.map(p => `<span class="pchip ${p.eliminated ? 'out' : ''}">${ava(p, 'sm')}${esc(p.name)}</span>`).join('')}</div>
     <button class="btn btn-primary btn-big btn-block" data-act="beginVote">Commencer le vote secret${icon('arrow')}</button>`;
@@ -1137,11 +1137,11 @@ function bidView() {
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:baseline">
         <span class="eyebrow">Solde</span>
-        <div class="wallet"><b style="font-size:24px">${p.wons}</b><span>${plural(p.wons, 'won', 'wons')}</span></div>
+        <div class="wallet"><b style="font-size:24px">${p.wons}</b><span>${plural(p.wons, 'écu', 'écus')}</span></div>
       </div>
       <div class="stepper">
         <button data-act="bidAdj" data-n="-1" aria-label="Moins un" ${ui.bid <= 1 ? 'disabled' : ''}>${icon('minus')}</button>
-        <div class="amount"><b data-bid>${ui.bid}</b><span>${plural(ui.bid, 'won', 'wons')}</span></div>
+        <div class="amount"><b data-bid>${ui.bid}</b><span>${plural(ui.bid, 'écu', 'écus')}</span></div>
         <button data-act="bidAdj" data-n="1" aria-label="Plus un" ${ui.bid >= p.wons ? 'disabled' : ''}>${icon('plus')}</button>
       </div>
       <div class="chips">
@@ -1152,8 +1152,8 @@ function bidView() {
         <button class="allin" data-act="bidSet" data-n="${p.wons}">Tapis</button>
       </div>
     </div>
-    <p class="after">Il te restera <b>${p.wons - ui.bid}</b> ${plural(p.wons - ui.bid, 'won', 'wons')}. La mise est dépensée, que tu gagnes ou non.</p>
-    <button class="btn btn-primary btn-big btn-block" data-act="confirmBid">${icon('lock')}Sceller ma mise : ${ui.bid} ${plural(ui.bid, 'won', 'wons')}</button>`;
+    <p class="after">Il te restera <b>${p.wons - ui.bid}</b> ${plural(p.wons - ui.bid, 'écu', 'écus')}. La mise est dépensée, que tu gagnes ou non.</p>
+    <button class="btn btn-primary btn-big btn-block" data-act="confirmBid">${icon('lock')}Sceller ma mise : ${ui.bid} ${plural(ui.bid, 'écu', 'écus')}</button>`;
 }
 
 function bidLabel(h, s) {
@@ -1199,7 +1199,7 @@ function endView() {
     <div class="rank">${rows.map((r, i) => `<div class="rrow ${r.rank === 1 ? 'first' : ''}">
       <div class="pos">${r.rank}</div>
       <div><div class="nm" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">${ava(r.p, 'sm')}${esc(r.p.name)}${r.p.eliminated ? `<span class="tag">Éliminé·e M${r.p.elimRound}</span>` : ''}</div>
-        <div class="st"><b>${r.ev.cells}</b>/9 cases · <b>${r.p.wons}</b> ${plural(r.p.wons, 'won restant', 'wons restants')}</div></div>
+        <div class="st"><b>${r.ev.cells}</b>/9 cases · <b>${r.p.wons}</b> ${plural(r.p.wons, 'écu restant', 'écus restants')}</div></div>
       <div class="bg">${r.ev.bingos}<small>${plural(r.ev.bingos, 'bingo', 'bingos')}</small></div>
     </div>`).join('')}</div>
 
@@ -1243,7 +1243,7 @@ function historyDrawer() {
       ${SHAPES.map(s => {
         const names = Object.keys(h.votes).filter(id => h.votes[id] === s).map(id => esc(byId(id).name));
         const b = bidLabel(h, s);
-        return `<div class="hrow s-${s}">${shapeSVG(s)}<span class="who">${names.length ? names.join(', ') : '<span class="dim">Personne</span>'}</span><span class="amt ${b.cls}">${b.cls ? 'SECRET' :b.txt === '—' ? '—' : b.txt + ' w'}</span></div>`;
+        return `<div class="hrow s-${s}">${shapeSVG(s)}<span class="who">${names.length ? names.join(', ') : '<span class="dim">Personne</span>'}</span><span class="amt ${b.cls}">${b.cls ? 'SECRET' :b.txt === '—' ? '—' : b.txt + ' ' + plural(+b.txt, 'écu', 'écus')}</span></div>`;
       }).join('')}
     </div>`).join('') : '<p class="mut">Aucune manche terminée pour l’instant.</p>'}
   </div></div>`;
@@ -1348,7 +1348,7 @@ const ACTIONS = {
     const s = state.current.votes[p.id];
     const amt = Math.max(1, Math.min(p.wons, ui.bid));
     ui.modal = {
-      title: `Sceller ${amt} ${plural(amt, 'won', 'wons')} ?`,
+      title: `Sceller ${amt} ${plural(amt, 'écu', 'écus')} ?`,
       body: `Ta mise sur ${inlineShape(s)} ${SH[s].name} sera définitivement dépensée, que tu gagnes ou non.`,
       ok: 'Sceller', cancel: 'Modifier',
       onOk: () => sealBid(amt),
@@ -1369,7 +1369,7 @@ const ACTIONS = {
     const total = state.queue.reduce((t, id) => t + state.draft[id], 0);
     ui.modal = {
       title: 'Valider les mises ?',
-      body: `${state.queue.length} mises, ${total} wons au total. Les montants sont définitivement débités, que l'enchère soit gagnée ou perdue.`,
+      body: `${state.queue.length} mises, ${total} écus au total. Les montants sont définitivement débités, que l'enchère soit gagnée ou perdue.`,
       ok: 'Valider', cancel: 'Modifier',
       onOk: dealerSealBids,
     };
